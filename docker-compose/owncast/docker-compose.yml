@@ -1,0 +1,11 @@
+services:
+  owncast:
+    image: owncast/owncast:latest
+    container_name: ${STACK_NAME}
+    ports: 
+      - ${HOST_PORT_WEB}:8080
+      - ${HOST_PORT_RTMP}:1935
+    restart: unless-stopped
+    volumes:
+      - ${HOST_PERSIST_PATH}${PATH_DATA}:/app/data
+      
