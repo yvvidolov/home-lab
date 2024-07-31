@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "Usage: docker run -it yvvidolov/linux-benchmark-cli:latest [command]"
+echo ""
+echo "Available benchmarks:"
+echo "- sysbench: (cpu/memory/disk) Run system performance benchmarks."
+echo "- passmark: (cpu/memory) Execute PassMark performance tests."
+echo "- fio: (disk) Perform file I/O benchmarks."
+echo ""
+echo "Example benchmark:"
+echo "$ sysbench --test=cpu --threads=8 run"
+echo "$ sysbench --test=memory --num-threads=8 run"
+echo "$ ./fio-cdm-master/fio-cdm ./mounted_path"
+echo "$ ./PerformanceTest/pt_linux_x64"
+echo ""
+
+exec "$@"

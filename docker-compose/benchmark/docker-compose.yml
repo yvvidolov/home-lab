@@ -1,0 +1,12 @@
+services:
+  passmark:
+    image: yvvidolov/linux-benchmark-cli
+    command: >
+      bash -ce "cat /etc/motd; 
+               echo '';
+               echo '$ ./help # to get usage information';
+               tail -f /dev/null"
+    # volume: # This is needed to benchmark storage devices
+    #   - /host_path_from_hdd:/home/hdd
+    #   - /host_path_from_ssd:/home/ssd
+    #   - /host_path_from_nvme:/home/nvme
