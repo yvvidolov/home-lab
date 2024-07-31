@@ -3,77 +3,132 @@
   "templates": [
     {
       "type": 3,
-      "title": "Immich {shmolf}",
-      "name": "immich",
+      "title": "owncast",
+      "name": "owncast",
       "categories": [
-        "Photos",
-        "Backup"
+        "server",
+        "network",
+        "social"
       ],
-      "description": "Self-hosted backup solution for photos and videos on mobile device.",
-      "logo": "https://raw.githubusercontent.com/shmolf/portainer-templates/main/assets/logos/immich-logo.svg",
-      "note": "<a target='_blank' href='https://immich.app'>Application documentation \ud83d\uddd7</a>",
+      "description": "very brief description of this service",
+      "logo": "//raw.githubusercontent.com/shmolf/portainer-templates/main/assets/logos/immich-logo.svg",
+      "note": "<h1>Show this</h1>\n<p>my<br />\ndescription<br />\nis<br />\ncool  </p>\n<h2>Pretty cool</h2>\n<p>some info</p>\n<hr />\n<p>smore info</p>\n<ul>\n<li>list</li>\n<li>item</li>\n<li>two</li>\n</ul>",
+      "platform": "linux",
       "env": [
         {
-          "default": "1000",
-          "label": "PUID",
-          "name": "PUID"
+          "label": "STACK_NAME",
+          "name": "STACK_NAME",
+          "default": "owncast",
+          "description": ""
         },
         {
-          "label": "PGID",
-          "name": "PGID",
-          "default": "1000"
+          "label": "HOST_PORT_WEB",
+          "name": "HOST_PORT_WEB",
+          "default": "8080",
+          "description": "expose http port (web interface)"
         },
         {
-          "label": "Immich version",
-          "name": "IMMICH_VERSION",
-          "default": "release",
-          "description": "To want to lock to a specific tag, provide a value such as 'v1.71.0'"
+          "label": "HOST_PORT_RTMP",
+          "name": "HOST_PORT_RTMP",
+          "default": "1935",
+          "description": "expose rtmp port (stream endpoint)"
         },
         {
-          "label": "Database username",
-          "name": "DB_USERNAME",
-          "default": "postgres"
+          "label": "HOST_PERSIST_PATH",
+          "name": "HOST_PERSIST_PATH",
+          "default": "/portainer/files",
+          "description": "where to place all persistent volumes on the host"
         },
         {
-          "label": "Database password",
-          "name": "DB_PASSWORD",
-          "default": "please-change-this-to-a-random-secret",
-          "description": "This should be changed to a random secret"
-        },
-        {
-          "label": "Database name",
-          "name": "DB_DATABASE_NAME",
-          "default": "immich"
-        },
-        {
-          "label": "Database hostname",
-          "name": "DB_HOSTNAME",
-          "default": "immich_postgres",
-          "description": "The default value references a service within the stack"
-        },
-        {
-          "label": "File backup location",
-          "name": "UPLOAD_LOCATION",
-          "default": "/portainer/Files/AppData/Immich/upload",
-          "description": "You can leave this path as-is, and the system will auto-create the needed folders. Feel free to change if you desire an alternative location."
-        },
-        {
-          "label": "Redis hostname",
-          "name": "REDIS_HOSTNAME",
-          "default": "immich_redis",
-          "description": "The default value references a service within the stack"
-        },
-        {
-          "default": "2283",
-          "label": "Http Port",
-          "name": "PORT"
+          "label": "PATH_DATA",
+          "name": "PATH_DATA",
+          "default": "owncast",
+          "description": "name of the data volume"
         }
       ],
-      "platform": "linux",
       "repository": {
-        "stackfile": "stacks/immich/docker-compose.yml",
-        "url": "https://github.com/shmolf/portainer-templates"
+        "stackfile": "docker-compose/owncast/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
       }
-    }, 
+    },
+    {
+      "type": 3,
+      "title": "firefly-iii",
+      "name": "firefly-iii",
+      "categories": [],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [
+        {
+          "label": "TZ",
+          "name": "TZ",
+          "default": "Europe/Amsterdam",
+          "description": "timezone"
+        },
+        {
+          "label": "MYSQL_PASSWORD",
+          "name": "MYSQL_PASSWORD",
+          "default": "secret_firefly_password",
+          "description": "database password"
+        },
+        {
+          "label": "MYSQL_USER",
+          "name": "MYSQL_USER",
+          "default": "firefly",
+          "description": ""
+        },
+        {
+          "label": "MYSQL_DATABASE",
+          "name": "MYSQL_DATABASE",
+          "default": "firefly",
+          "description": ""
+        },
+        {
+          "label": "APP_URL",
+          "name": "APP_URL",
+          "default": "http://localhost",
+          "description": "should match reverse proxy: https://firefly.domain.name"
+        },
+        {
+          "label": "APP_KEY",
+          "name": "APP_KEY",
+          "default": "SomeRandomStringOf32CharsExactly",
+          "description": "secret encryption key"
+        },
+        {
+          "label": "TRUSTED_PROXIES",
+          "name": "TRUSTED_PROXIES",
+          "default": "**",
+          "description": "reverse proxy address. '**' allows all"
+        },
+        {
+          "label": "# MYSQL_DATABASE",
+          "name": "# MYSQL_DATABASE",
+          "default": "asd",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/firefly-iii/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "benchmark",
+      "name": "benchmark",
+      "categories": [],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/benchmark/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    }
   ]
 }
