@@ -8,7 +8,8 @@
       "categories": [
         "server",
         "network",
-        "social"
+        "social",
+        "home-lab"
       ],
       "description": "very brief description of this service",
       "logo": "//raw.githubusercontent.com/shmolf/portainer-templates/main/assets/logos/immich-logo.svg",
@@ -55,7 +56,9 @@
       "type": 3,
       "title": "firefly-iii",
       "name": "firefly-iii",
-      "categories": [],
+      "categories": [
+        "home-lab"
+      ],
       "description": "",
       "logo": "",
       "note": "",
@@ -119,7 +122,9 @@
       "type": 3,
       "title": "benchmark",
       "name": "benchmark",
-      "categories": [],
+      "categories": [
+        "home-lab"
+      ],
       "description": "",
       "logo": "",
       "note": "",
