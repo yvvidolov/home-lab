@@ -26,14 +26,16 @@ RUN unzip passmark.zip && \
 RUN rm /home/passmark.zip /home/fio.zip
 RUN rm -rf /var/lib/apt/lists/*
 
-# Enable MOTD (sleep fixes portainer console clear screen)
+# Enable MOTD (does not work for portainer, as console exec issues clear)
 RUN echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd' >> /etc/bash.bashrc 
 COPY motd /etc/motd
 
 COPY help help
 RUN chmod +x help
 
-# Entry point
+COPY bench_disk_dd.sh /home/fio-cdm-master/
+
+# Entry point - does not
 # COPY entrypoint.sh /entrypoint.sh
 # RUN chmod +x /entrypoint.sh
 # ENTRYPOINT ["/entrypoint.sh"]

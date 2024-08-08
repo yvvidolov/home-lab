@@ -1,12 +1,14 @@
 Usage: docker run -it yvvidolov/linux-benchmark-cli:latest [command]
 
 Available benchmarks:
-- sysbench: (cpu/memory/disk) Run system performance benchmarks.
-- passmark: (cpu/memory) Execute PassMark performance tests.
-- fio: (disk) Perform file I/O benchmarks.
+- sysbench: (cpu/memory/disk) Run system performance benchmarks
+- passmark: (cpu/memory) Execute PassMark performance tests
+- fio: (disk) Perform file I/O benchmarks
+- dd: (disk) File I/O
 
 Example benchmark:
 $ sysbench --test=cpu --threads=8 run
 $ sysbench --test=memory --num-threads=8 run
 $ ./fio-cdm-master/fio-cdm ./mounted_path
+$ ./fio-cdm-master/bench_disk_dd.sh ./mounted_path
 $ ./PerformanceTest/pt_linux_x64
