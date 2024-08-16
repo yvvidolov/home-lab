@@ -1,0 +1,20 @@
+#name: homepage
+#categories: dashboard
+#description: web portal / dashboard
+#platform: linux
+#logo: https://github.com/walkxcode/dashboard-icons/blob/main/png/homepage.png?raw=true
+#note: 
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-homepage # override default: stackname-container-1-salt
+    restart: unless-stopped
+    # environment:
+    #   PUID: 3626
+    #   PGID: 3500
+    ports:
+      - ${PORT}:3000
+    volumes:
+      - ${PATH_HOST_CONFIG}:/app/config # Make sure your local config directory exists
+      - ${PATH_HOST_IMAGES}:/app/public/images
