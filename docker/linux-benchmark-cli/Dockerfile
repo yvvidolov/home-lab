@@ -18,10 +18,12 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 WORKDIR /home
 
 RUN wget -O passmark.zip https://www.passmark.com/downloads/pt_linux_x64.zip && \
-    wget -O fio.zip https://github.com/xlucn/fio-cdm/archive/refs/heads/master.zip
+    wget -O fio.zip https://github.com/xlucn/fio-cdm/archive/refs/heads/master.zip && \
+    wget -O prime95.tar.gz https://download.mersenne.ca/gimps/v30/30.19/p95v3019b20.linux64.tar.gz
 
 RUN unzip passmark.zip && \
-    unzip fio.zip
+    unzip fio.zip && \
+    mkdir prime95 && tar -xzf prime95.tar.gz -C prime95
 
 RUN rm /home/passmark.zip /home/fio.zip
 RUN rm -rf /var/lib/apt/lists/*

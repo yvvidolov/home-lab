@@ -3,6 +3,7 @@ Usage: docker run -it yvvidolov/linux-benchmark-cli:latest [command]
 Available benchmarks:
 - sysbench: (cpu/memory/disk) Run system performance benchmarks
 - passmark: (cpu/memory) Execute PassMark performance tests
+- prime95: (cpu) Stress test the CPU
 - fio: (disk) Perform file I/O benchmarks
 - dd: (disk) File I/O
 
@@ -12,3 +13,4 @@ $ sysbench --test=memory --num-threads=8 run
 $ ./fio-cdm-master/fio-cdm ./mounted_path
 $ ./fio-cdm-master/bench_disk_dd.sh ./mounted_path
 $ ./PerformanceTest/pt_linux_x64
+$ ./prime95/mprime # choose 16

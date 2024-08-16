@@ -1,3 +1,10 @@
+#name: template
+#categories: 
+#description: 
+#platform: linux
+#logo: 
+#note: 
+
 include: # include global secrets
   - ../global.yml
 
@@ -5,6 +12,7 @@ services:
   template:
     image: alpine:latest
     container_name: ${COMPOSE_PROJECT_NAME}-template # override default: stackname-container-1-salt
+    restart: unless-stopped
     # user: 33:33 # run docker as user:group
     environment:
     # - PUID=33 -PGID=33 # linuxserver way to define docker user:group

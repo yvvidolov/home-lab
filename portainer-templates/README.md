@@ -2,6 +2,10 @@
 
 This repository contains a collection of templates for use with [Portainer](https://www.portainer.io/). These templates are automatically generated using a Python script that parses information from Docker Compose YAML files.
 
+> Brief  
+> run `./update.sh` to generate all templates and merge them with Lissy93 list.  
+> access: `https://raw.githubusercontent.com/yvvidolov/home-lab/main/portainer-templates/templates-merge.json`
+
 ## Usage Precompiled Templates
 
 ##### Setup Portainer configuration:  
@@ -42,11 +46,11 @@ Script will generate template metadata from the following files in each docker-c
 - `.env`: settings, default values and descriptions will be added for each variable
   - var_name=var_value # var_description
 - `docker-compose.yml`: the following comments will be parsed:
-  - #name template_and_stack_name
-  - #category filter_cat_1 filter_cat_2
-  - #brief short description visible in template list
-  - #info html description of the stack including configuration and first run information
-  - #logo url to image
+  - #name: template_and_stack_name
+  - #categories: filter_cat_1 filter_cat_2
+  - #description: short description visible in template list
+  - #logo: url to image
+  - #note: html description of the stack including configuration and first run information
 
 Usage/Arguments:  
 `-c`: output template json to console/stdout  

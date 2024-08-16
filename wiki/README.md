@@ -47,4 +47,4 @@ There are minimum requirements for particular functionality and optional compone
 `free` `optional`
 
 - [ ] [GitLab](gitlab.md) - Source control, issue tracker, wiki, CI/CD
-
+- [ ] [Gitea](services.md#Gitea) - Source control, issue tracker, wiki, CI/CD

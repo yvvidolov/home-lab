@@ -6,8 +6,8 @@ Parse docker-compose subdirectories to extract metadata information and compose 
 - Parse docker-compose.yml comments to fill template information, (everything except name is optional):
 #name template_and_stack_name
 #category filter_cat_1 filter_cat_2
-#brief short description visible in template list
-#info html description of the stack including configuration and first run information
+#description short description visible in template list
+#note html description of the stack including configuration and first run information
 #logo url to image
 
 NOTE: run from root repository path
@@ -43,7 +43,7 @@ def parse_docker_dirs(debug=False):
     template['version'] = '2'
     template['templates'] = []
 
-    stacks = os.listdir(STACKS_PATH)
+    stacks = [d for d in os.listdir(STACKS_PATH) if os.path.isdir(f'{STACKS_PATH}/{d}')]
     for stack in stacks:
         if debug: print(f'# Stack: {stack}')
 
@@ -53,6 +53,7 @@ def parse_docker_dirs(debug=False):
             with open(env_file, 'r') as f:
                 for line in f:
                     if '=' not in line: continue
+                    if line[0] == '#': continue
                     line = line.strip()
                     name, value = line.split('=')
                     value, *description = value.split('#')
@@ -87,24 +88,28 @@ def parse_docker_dirs(debug=False):
                 comment_block = content_lines[0:first_non_comment_line]
                 
                 for line in comment_block:
-                    if 'platform' in line and ':' in line:
-                        yml_data['platform'] = line.split(':')[-1].strip()
-                    if 'categories' in line and ':' in line:
-                        yml_data['categories'] = line.split(':')[-1].strip()
-                    if 'logo' in line and ':' in line:
-                        yml_data['logo'] = line.split(':')[-1].strip()
-                    if 'note' in line and ':' in line:
-                        yml_data['note'] = line.split(':')[-1].strip()
-                    if 'description' in line and ':' in line:
-                        yml_data['description'] = line.split(':')[-1].strip()
+                    if '#name' in line and ':' in line:
+                        yml_data['stack_name'] = ':'.join(line.split(':')[1:]).strip()
+                    if '#platform' in line and ':' in line:
+                        yml_data['platform'] = ':'.join(line.split(':')[1:]).strip()
+                    if '#categories' in line and ':' in line:
+                        yml_data['categories'] = ':'.join(line.split(':')[1:]).strip()
+                    if '#logo' in line and ':' in line:
+                        yml_data['logo'] = ':'.join(line.split(':')[1:]).strip()
+                    if '#description' in line and ':' in line:
+                        yml_data['description'] = ':'.join(line.split(':')[1:]).strip()
+                    if '#note' in line and ':' in line:
+                        yml_data['note'] = ':'.join(line.split(':')[1:]).strip()
+        else:
+            continue # don't add an entry if docker-compose.yml is missing
         # yml
                 
         get_yml_data = lambda data, default: yml_data[data] if data in yml_data else default
 
         entry = {}
         entry["type"] = 3 # 3 means stack
-        entry["title"] = stack # name in the template list
-        entry["name"] = stack # the name of the stack after deployment
+        entry["title"] = get_yml_data('stack_name', stack) # name in the template list
+        # entry["stack_name"] = get_yml_data('stack_name', stack) # the name of the stack after deployment
         entry["categories"] = get_yml_data('categories', '').split() # For filtering in portainer
         entry["description"] = get_yml_data('description', '') # Visible in the template list
         entry["logo"] = get_yml_data('logo', '')

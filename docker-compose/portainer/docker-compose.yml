@@ -1,15 +1,20 @@
----
+#name: portainer
+#categories: docker
+#description: manage containers and deployment
+#platform: linux
+#logo: https://icon.icepanel.io/Technology/svg/Portainer.svg
+#note: 
+
 services:
   portainer:
     image: portainer/portainer-ce:latest
-    container_name: portainer
+    container_name: ${COMPOSE_PROJECT_NAME}-portainer
     ports:
-      - 9000:9000
+      - ${PORT}:9000
     volumes:
       # - portainer_data:/data # annonymous storage
-      - /zpool/docker/portainer:/data # hdd storage
+      - ${PATH_HOST_DATA}:/data # hdd storage
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
 #volumes:
 #  portainer_data:
- 

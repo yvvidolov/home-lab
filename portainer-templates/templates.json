@@ -4,17 +4,13 @@
     {
       "type": 3,
       "title": "owncast",
-      "name": "owncast",
       "categories": [
-        "server",
-        "network",
-        "social",
         "home-lab"
       ],
-      "description": "very brief description of this service",
-      "logo": "//raw.githubusercontent.com/shmolf/portainer-templates/main/assets/logos/immich-logo.svg",
+      "description": "",
+      "logo": "",
       "note": "<h1>Show this</h1>\n<p>my<br />\ndescription<br />\nis<br />\ncool  </p>\n<h2>Pretty cool</h2>\n<p>some info</p>\n<hr />\n<p>smore info</p>\n<ul>\n<li>list</li>\n<li>item</li>\n<li>two</li>\n</ul>",
-      "platform": "linux",
+      "platform": "",
       "env": [
         {
           "label": "STACK_NAME",
@@ -54,8 +50,23 @@
     },
     {
       "type": 3,
+      "title": "authentik",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "<p>https://docs.goauthentik.io/docs/installation/docker-compose </p>",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/authentik/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "firefly-iii",
-      "name": "firefly-iii",
       "categories": [
         "home-lab"
       ],
@@ -105,12 +116,6 @@
           "name": "TRUSTED_PROXIES",
           "default": "**",
           "description": "reverse proxy address. '**' allows all"
-        },
-        {
-          "label": "# MYSQL_DATABASE",
-          "name": "# MYSQL_DATABASE",
-          "default": "asd",
-          "description": ""
         }
       ],
       "repository": {
@@ -120,8 +125,148 @@
     },
     {
       "type": 3,
+      "title": "redmine",
+      "categories": [
+        "project-management",
+        "home-lab"
+      ],
+      "description": "issue tracker",
+      "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmine_logo.svg/719px-Redmine_logo.svg.png?20101216135906",
+      "note": "First login:<br/>username: admin<br/>password: admin<br/>Make sure you visit the Administration link and Load the default configuration before creating any projects.",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_DOCKER",
+          "name": "PATH_DOCKER",
+          "default": "/home/users/yvvidolov/work/projects/home-lab/temp",
+          "description": ""
+        },
+        {
+          "label": "PATH_SECRET",
+          "name": "PATH_SECRET",
+          "default": "/home/users/yvvidolov/work/projects/home-lab/temp/secrets",
+          "description": ""
+        },
+        {
+          "label": "TZ",
+          "name": "TZ",
+          "default": "Europe/Sofia",
+          "description": "Timezone"
+        },
+        {
+          "label": "PORT",
+          "name": "PORT",
+          "default": "8080",
+          "description": ""
+        },
+        {
+          "label": "DB_PASSWORD",
+          "name": "DB_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "DB_ROOT_PASSWORD",
+          "name": "DB_ROOT_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/redmine/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "portainer",
+      "categories": [
+        "docker",
+        "home-lab"
+      ],
+      "description": "manage containers and deployment",
+      "logo": "https://icon.icepanel.io/Technology/svg/Portainer.svg",
+      "note": "",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST_DATA",
+          "name": "PATH_HOST_DATA",
+          "default": "/zpool/docker/portainer",
+          "description": "Path for persistent host mounted volumes"
+        },
+        {
+          "label": "PORT",
+          "name": "PORT",
+          "default": "9000",
+          "description": "Publish web interface"
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/portainer/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "template",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_DOCKER",
+          "name": "PATH_DOCKER",
+          "default": "/zpool/docker",
+          "description": "Path for persistent host mounted volumes"
+        },
+        {
+          "label": "PATH_SECRET",
+          "name": "PATH_SECRET",
+          "default": "/zpool/docker/secrets",
+          "description": "Path to secret files for use in container"
+        },
+        {
+          "label": "TZ",
+          "name": "TZ",
+          "default": "Europe/Sofia",
+          "description": "Timezone"
+        },
+        {
+          "label": "LOCAL_SETTING",
+          "name": "LOCAL_SETTING",
+          "default": "my_port_80",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/template/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "benchmark",
-      "name": "benchmark",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "<h2>CPU/Memory</h2>\n<p><code>shell\nwget -O passmark.zip https://www.passmark.com/downloads/pt_linux_x64.zip\nunzip passmark.zip\n./PerformanceTest/pt_linux_x64\nA # run all tests\nY # Upload results</code></p>\n<h4>Example Results</h4>\n<blockquote>\n<p>CPU Mark with PL4=45000 (default 30000): 11200\n```shell\nCPU Mark:                          7229\n  Integer Math                     20404 Million Operations/s\n  Floating Point Math              12611 Million Operations/s\n  Prime Numbers                    24.9 Million Primes/s\n  Sorting                          11432 Thousand Strings/s\n  Encryption                       5781 MB/s\n  Compression                      79489 KB/s\n  CPU Single Threaded              2066 Million Operations/s\n  Physics                          648 Frames/s\n  Extended Instructions (SSE)      3969 Million Matrices/s</p>\n</blockquote>\n<p>Memory Mark:                       2911\n  Database Operations              4519 Thousand Operations/s\n  Memory Read Cached               19804 MB/s\n  Memory Read Uncached             14035 MB/s\n  Memory Write                     12375 MB/s\n  Available RAM                    23395 Megabytes\n  Memory Latency                   29 Nanoseconds\n  Memory Threaded                  28481 MB/s</p>\n<p>Results submitted: https://www.passmark.com/baselines/V11/display.php?id=507044239921\n```</p>\n<h2>Disk Performance</h2>\n<h3>ZFS (optional)</h3>\n<blockquote>\n<p>ZFS filesystem uses heavy caching. To correctly benchmark, a new filesystem with disabled caching needs to be created. Disabling caching on an already existing filesystem might already have cached resources.</p>\n</blockquote>\n<ol>\n<li>\n<p>Create new ZFS filesystem just for benchmarking</p>\n<ul>\n<li>Storage -&gt; ZFS -&gt;  Pools -&gt; Add filesystem -&gt; bench_hdd</li>\n</ul>\n</li>\n<li>\n<p>Disable caching</p>\n<ul>\n<li>web</li>\n<li>Storage -&gt; ZFS -&gt; Pools -&gt; bench_hdd -&gt; Properties</li>\n<li>Search: cache</li>\n<li>primarycache: none</li>\n<li>\n<p>secondarycache: none</p>\n</li>\n<li>\n<p>(or) ssh</p>\n</li>\n<li>\n<p>Save original cache settings for the tested pool:\n    <code>shell\n    zfs get primarycache zpool/docker\n    zfs get secondarycache zpool/docker</code></p>\n</li>\n<li>\n<p>Disable L1ARC and L2ARC caching\n    <code>shell\n    zfs set primarycache=none zpool/docker\n    zfs set secondarycache=none zpool/docker</code></p>\n</li>\n</ul>\n</li>\n</ol>\n<h3>Benchmark A (fio)</h3>\n<ol>\n<li>\n<p>Mount volumes from different disk devices<br />\n    Edit benchmark/docker-compose.yml:\n    ```yml\n    volumes: # This is needed to benchmark storage devices</p>\n<ul>\n<li>/zpool/bench_hdd:/home/dev/hdd</li>\n<li>/srv/dev-disk-by-uuid-b5afbc2e-ccbb-4460-ae47-1883a47792ee/home:/home/dev/mmc</li>\n<li>/root/:/home/dev/ssd\n```</li>\n</ul>\n</li>\n<li>\n<p>Deploy using portainer or docker compose</p>\n</li>\n<li>Attach console to container (portainer or cli: <code>docker exec -it benchmark bash</code>)</li>\n<li>Run benchmark for all device types:\n   <code>shell\n   ./fio-cdm-master/fio-cdm dev/hdd\n   ./fio-cdm-master/fio-cdm dev/mmc\n   ./fio-cdm-master/fio-cdm dev/ssd</code></li>\n</ol>\n<h4>Example results:</h4>\n<p>```shell\n$ ./fio-cdm-master/fio-cdm dev/hdd\ntests: 5, size: 1.0GiB, target: /home/dev/hdd 2.8GiB/10.4TiB\n|Name        |  Read(MB/s)| Write(MB/s)|\n|------------|------------|------------|\n|SEQ1M Q8 T1 |      175.04|     1578.10|\n|SEQ1M Q1 T1 |     8729.61|     1923.58|\n|RND4K Q32T16|      231.49|        2.25|\n|. IOPS      |    56516.31|      548.20|\n|. latency us|     8924.63|   829209.93|\n|RND4K Q1 T1 |        0.49|        0.43|\n|. IOPS      |      119.55|      106.05|\n|. latency us|     8352.47|     9410.11|</p>\n<p>$ ./fio-cdm-master/fio-cdm dev/mmc\ntests: 5, size: 1.0GiB, target: /home/dev/mmc 3.8GiB/112.8GiB\n|Name        |  Read(MB/s)| Write(MB/s)|\n|------------|------------|------------|\n|SEQ1M Q8 T1 |      335.54|      247.90|\n|SEQ1M Q1 T1 |      277.86|      185.31|\n|RND4K Q32T16|      102.97|      129.86|\n|. IOPS      |    25140.32|    31704.65|\n|. latency us|    20298.63|    16107.09|\n|RND4K Q1 T1 |       17.45|       30.55|\n|. IOPS      |     4260.55|     7458.71|\n|. latency us|      233.01|      129.24|</p>\n<p>$ ./fio-cdm-master/fio-cdm dev/ssd\ntests: 5, size: 1.0GiB, target: /home/dev/ssd 3.8GiB/122.0GiB\n|Name        |  Read(MB/s)| Write(MB/s)|\n|------------|------------|------------|\n|SEQ1M Q8 T1 |     3610.43|     2984.27|\n|SEQ1M Q1 T1 |     2381.86|     1703.27|\n|RND4K Q32T16|     1976.05|     1771.63|\n|. IOPS      |   482435.23|   432527.09|\n|. latency us|     1059.68|     1173.31|\n|RND4K Q1 T1 |       60.18|      168.46|\n|. IOPS      |    14693.06|    41127.77|\n|. latency us|       66.64|       22.62|\n```</p>\n<h3>Benchmark B (dd container)</h3>\n<blockquote>\n<p>NOTE: dropping caches is not possible inside container. Only writing speed is reliable if tested from container</p>\n</blockquote>\n<p><code>shell\n./fio-cdm-master/bench_disk_dd.sh dev/hdd\n./fio-cdm-master/bench_disk_dd.sh dev/mmc\n./fio-cdm-master/bench_disk_dd.sh dev/ssd</code></p>\n<h4>Example results:</h4>\n<p><code>shell\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 8.92617 s, 241 MB/\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 9.77646 s, 220 MB/\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 1.95963 s, 1.1 GB/</code></p>\n<h3>Benchmark C (dd host)</h3>\n<p><code>shell\nwget https://raw.githubusercontent.com/yvvidolov/home-lab/main/docker/linux-benchmark-cli/bench_disk_dd.sh\nchmod +x bench_disk_dd.sh\n./bench_disk_dd.sh /zpool/bench_hdd\n./bench_disk_dd.sh /srv/dev-disk-by-uuid-b5afbc2e-ccbb-4460-ae47-1883a47792ee/home\n./bench_disk_dd.sh /root/</code></p>\n<h4>Example results:</h4>\n<p><code>shell\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 6.93616 s, 310 MB/s\nRead: ctrl+c # aborted (too slow?)\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 9.79409 s, 219 MB/s\nRead: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 7.13273 s, 301 MB/s\nWrite: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 2.02303 s, 1.1 GB/s\nRead: 2147479552 bytes (2.1 GB, 2.0 GiB) copied, 0.87866 s, 2.4 GB/s</code></p>",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/benchmark/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "gitea",
       "categories": [
         "home-lab"
       ],
@@ -131,7 +276,7 @@
       "platform": "",
       "env": [],
       "repository": {
-        "stackfile": "docker-compose/benchmark/docker-compose.yml",
+        "stackfile": "docker-compose/gitea/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
     }
