@@ -1,0 +1,17 @@
+include: # include global secrets
+  - ../global.yml
+
+services:
+  template:
+    image: alpine:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-template # override default: stackname-container-1-salt
+    # user: 33:33 # run docker as user:group
+    environment:
+    # - PUID=33 -PGID=33 # linuxserver way to define docker user:group
+      - ENV_VAR=123 # define container environment variable
+    secrets: # reference ../global.yml
+      - db_root_password # /run/secrets/db_root_password
+      - db_password # /run/secrets/db_password
+    volumes:
+      - $PATH_DOCKER/template:/mnt/template
+    command: sh -c "echo $LOCAL_SETTING $$ENV_VAR; env; echo 123 > /mnt/template/asd.txt; ls /run/secrets; whoami; id"

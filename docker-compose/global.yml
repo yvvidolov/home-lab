@@ -1,0 +1,8 @@
+# Default shared secret filenames
+# NOTE: make sure you create the files before deploying
+# NOTE: make sure docker user/group can read secrets
+secrets:
+  db_root_password:
+    file: $PATH_SECRET/db_root_password
+  db_password:
+    file: $PATH_SECRET/db_password
