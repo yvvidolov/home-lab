@@ -21211,7 +21211,7 @@
         "home-lab"
       ],
       "description": "reverse proxy manager based on neginx",
-      "logo": "https://nginxproxymanager.com/logo.svg",
+      "logo": "https://github.com/walkxcode/dashboard-icons/blob/main/png/nginx-proxy-manager.png?raw=true",
       "note": "",
       "platform": "linux",
       "env": [
