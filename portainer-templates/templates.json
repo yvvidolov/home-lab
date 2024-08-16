@@ -39,6 +39,48 @@
     },
     {
       "type": 3,
+      "title": "cloudflare-ddns",
+      "categories": [
+        "network",
+        "home-lab"
+      ],
+      "description": "If you have dynamic IP and registered domain with cloudflare, this will update it",
+      "logo": "https://developers.cloudflare.com/_astro/logo.BU9hiExz.svg",
+      "note": "<h3>Cloudflare DDNS</h3>\n<p><a href=\"https://blog.sixteenbit.com/how-to-setup-cloudflare-ddns-using-docker/\">Guide</a><br />\nCF_API_TOKEN / API Token: your_api_key_for_domain_zone<br />\nDomains: <code>domain_name.com</code><br />\nPoxied: <code>false</code>  </p>",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "API_KEY",
+          "name": "API_KEY",
+          "default": "cloudflare_api_key",
+          "description": "https://blog.sixteenbit.com/how-to-setup-cloudflare-ddns-using-docker/"
+        },
+        {
+          "label": "ZONE",
+          "name": "ZONE",
+          "default": "domain.com",
+          "description": "domain name for which you will change the ip"
+        },
+        {
+          "label": "SUBDOMAIN",
+          "name": "SUBDOMAIN",
+          "default": "",
+          "description": "subdomain name"
+        },
+        {
+          "label": "PROXIED",
+          "name": "PROXIED",
+          "default": "false",
+          "description": "if cloudflare should proxy connection through its servers"
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/cloudflare-ddns/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "authentik",
       "categories": [
         "home-lab"
@@ -137,10 +179,10 @@
           "description": "path to image resources"
         },
         {
-          "label": "HOST_PORT",
-          "name": "HOST_PORT",
+          "label": "PORT",
+          "name": "PORT",
           "default": "3000",
-          "description": ""
+          "description": "publish container port on host"
         }
       ],
       "repository": {
