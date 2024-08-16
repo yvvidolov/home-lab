@@ -1,0 +1,25 @@
+#name: nginx-proxy-manager
+#categories: network
+#description: reverse proxy manager based on neginx
+#platform: linux
+#logo: https://nginxproxymanager.com/logo.svg
+#note: 
+
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+    ports:
+      - ${HOST_PORT_HTTP}:80 # Public HTTP Port
+      - ${HOST_PORT_HTTPS}:443 # Public HTTPS Port
+      - ${HOST_PORT_ADMIN}:81 # Admin Web Port
+
+    # Uncomment the next line if you uncomment anything in the section
+    # environment:
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+
+    volumes:
+      - ${PATH_HOST}/data:/data
+      - ${PATH_HOST}/letsencrypt:/etc/letsencrypt

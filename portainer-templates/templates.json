@@ -346,6 +346,48 @@
         "stackfile": "docker-compose/gitea/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
+    },
+    {
+      "type": 3,
+      "title": "nginx-proxy-manager",
+      "categories": [
+        "network",
+        "home-lab"
+      ],
+      "description": "reverse proxy manager based on neginx",
+      "logo": "https://nginxproxymanager.com/logo.svg",
+      "note": "",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/nginx-proxy-manager",
+          "description": "persistent storage"
+        },
+        {
+          "label": "HOST_PORT_HTTP",
+          "name": "HOST_PORT_HTTP",
+          "default": "80",
+          "description": "Public HTTP Port, should be forwarded in router"
+        },
+        {
+          "label": "HOST_PORT_HTTPS",
+          "name": "HOST_PORT_HTTPS",
+          "default": "443",
+          "description": "Public HTTPS Port, should be forwarded in router"
+        },
+        {
+          "label": "HOST_PORT_ADMIN",
+          "name": "HOST_PORT_ADMIN",
+          "default": "81",
+          "description": "Admin Web Port for the control panel"
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/nginx-proxy-manager/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
     }
   ]
 }
