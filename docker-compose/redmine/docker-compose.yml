@@ -1,0 +1,56 @@
+#name: redmine
+#categories: project-management
+#description: issue tracker
+#platform: linux
+#logo: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmine_logo.svg/719px-Redmine_logo.svg.png?20101216135906
+#note: First login:<br/>username: admin<br/>password: admin<br/>Make sure you visit the Administration link and Load the default configuration before creating any projects.
+
+services:
+  database:
+    image: mariadb:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-database
+    restart: unless-stopped
+    environment:
+      - MARIADB_USER=redmine
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=redmine_production
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MARIADB_AUTO_UPGRADE=1
+    volumes:
+      - ${PATH_DOCKER}/redmine/mariadb:/var/lib/mysql
+    command:
+      - mariadbd
+      - --transaction-isolation=READ-COMMITTED
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+  # Not supported
+  # memcached:
+  #   image: memcached:alpine
+  #   container_name: ${COMPOSE_PROJECT_NAME}-memcached
+  #   restart: unless-stopped
+  #   # Debug memcache connection
+  #   #command: -vv
+
+  redmine:
+    image: redmine:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-redmine
+    restart: unless-stopped
+    depends_on:
+      - database
+    ports:
+      - ${PORT}:3000
+    environment:
+      - TZ=${TZ}
+
+      - REDMINE_DB_MYSQL=database
+      - REDMINE_DB_USERNAME=redmine
+      - REDMINE_DB_DATABASE=redmine_production
+      - REDMINE_DB_PASSWORD=${DB_PASSWORD}
+      # - REDMINE_SECRET_KEY_BASE=${REDMINE_SECRET_KEY_BASE} # Only used for swarm
+      # - REDMINE_CONCURRENT_UPLOADS=2
+
+      # - MEMCACHE_HOST=memcached # Doesn't seem to be supported
+
+    volumes:
+      - ${PATH_DOCKER}/redmine/files:/usr/src/redmine/files
