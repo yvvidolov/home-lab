@@ -5,18 +5,19 @@
       "type": 3,
       "title": "owncast",
       "categories": [
+        "stream",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
-      "note": "<h1>Show this</h1>\n<p>my<br />\ndescription<br />\nis<br />\ncool  </p>\n<h2>Pretty cool</h2>\n<p>some info</p>\n<hr />\n<p>smore info</p>\n<ul>\n<li>list</li>\n<li>item</li>\n<li>two</li>\n</ul>",
-      "platform": "",
+      "description": "watch rtmp streams",
+      "logo": "https://owncast.online/images/owncast-logo-1000x1000.png",
+      "note": "",
+      "platform": "linux",
       "env": [
         {
-          "label": "STACK_NAME",
-          "name": "STACK_NAME",
-          "default": "owncast",
-          "description": ""
+          "label": "PATH_HOST_DATA",
+          "name": "PATH_HOST_DATA",
+          "default": "/zpool/docker/owncast",
+          "description": "Path for persistent host mounted volumes"
         },
         {
           "label": "HOST_PORT_WEB",
@@ -29,18 +30,6 @@
           "name": "HOST_PORT_RTMP",
           "default": "1935",
           "description": "expose rtmp port (stream endpoint)"
-        },
-        {
-          "label": "HOST_PERSIST_PATH",
-          "name": "HOST_PERSIST_PATH",
-          "default": "/portainer/files",
-          "description": "where to place all persistent volumes on the host"
-        },
-        {
-          "label": "PATH_DATA",
-          "name": "PATH_DATA",
-          "default": "owncast",
-          "description": "name of the data volume"
         }
       ],
       "repository": {
@@ -120,6 +109,42 @@
       ],
       "repository": {
         "stackfile": "docker-compose/firefly-iii/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "homepage",
+      "categories": [
+        "dashboard",
+        "home-lab"
+      ],
+      "description": "web portal / dashboard",
+      "logo": "https://github.com/walkxcode/dashboard-icons/blob/main/png/homepage.png?raw=true",
+      "note": "",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST_CONFIG",
+          "name": "PATH_HOST_CONFIG",
+          "default": "/zpool/docker/homepage/config",
+          "description": "path to your homepage configuration"
+        },
+        {
+          "label": "PATH_HOST_IMAGES",
+          "name": "PATH_HOST_IMAGES",
+          "default": "/zpool/docker/homepage/images",
+          "description": "path to image resources"
+        },
+        {
+          "label": "HOST_PORT",
+          "name": "HOST_PORT",
+          "default": "3000",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/homepage/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
     },
