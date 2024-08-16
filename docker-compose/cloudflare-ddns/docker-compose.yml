@@ -1,0 +1,16 @@
+#name: cloudflare-ddns
+#categories: network
+#description: If you have dynamic IP and registered domain with cloudflare, this will update it
+#platform: linux
+#logo: https://developers.cloudflare.com/_astro/logo.BU9hiExz.svg
+
+services:
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    environment:
+      - API_KEY=${API_KEY}
+      - ZONE=${ZONE}
+      - SUBDOMAIN=${SUBDOMAIN}
+      - PROXIED=${PROXIED}
+      
