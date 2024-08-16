@@ -1,22 +1,18 @@
-# platform: linux
-# categories: server network social 
-# logo: https://raw.githubusercontent.com/shmolf/portainer-templates/main/assets/logos/immich-logo.svg
-# description: very brief description of this service
-# note: 
-# this is a multiline note
-# #header
-# ## header 2
-# some text
+#name: owncast
+#categories: stream
+#description: watch rtmp streams
+#platform: linux
+#logo: https://owncast.online/images/owncast-logo-1000x1000.png
+#note: 
 
 services:
   owncast:
-    # image: owncast/owncast:latest
-    image: busybox
-    # container_name: ${Name}_owncast # if not given it is generated as {stack}-{service}-1 # if given, we can't create two stacks because the container name is the same # we don't have ${Name} stack variable
+    image: owncast/owncast:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-owncast
     ports: 
       - ${HOST_PORT_WEB}:8080
       - ${HOST_PORT_RTMP}:1935
     restart: unless-stopped
-    network_mode: bridge # we don't need e separate network created, just join default bridge
-    # volumes:
-    #   - ${HOST_PERSIST_PATH}${PATH_DATA}:/app/data
+    # network_mode: bridge # we don't need a separate network created, just join default bridge
+    volumes:
+      - ${PATH_HOST_DATA}:/app/data
