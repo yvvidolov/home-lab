@@ -1,0 +1,47 @@
+#name: firefly-iii
+#categories: finance
+#description: keep track of your finances, has android apps and web interface
+#platform: linux
+#logo: https://github.com/walkxcode/dashboard-icons/blob/main/png/firefly.png?raw=true
+#note: 
+
+services:
+  app:
+    image: fireflyiii/core:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-core
+    restart: unless-stopped
+    volumes:
+      - ${PATH_HOST}/upload:/var/www/html/storage/upload
+    env_file: firefly.env
+    environment:
+      - APP_KEY=${APP_KEY}
+      # - SITE_OWNER=${SITE_OWNER}
+      - DEFAULT_LOCALE=${DEFAULT_LOCALE}
+      - TZ=${TZ}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - STATIC_CRON_TOKEN=${STATIC_CRON_TOKEN}
+      - APP_URL=${APP_URL}
+      - DB_DATABASE=firefly
+      - DB_USERNAME=firefly
+    ports:
+      - ${PORT}:8080
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:lts
+    container_name: ${COMPOSE_PROJECT_NAME}-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_USER=firefly
+      - MYSQL_DATABASE=firefly
+    volumes:
+      - ${PATH_HOST}/database:/var/lib/mysql
+
+  cron:
+    image: alpine
+    restart: unless-stopped
+    container_name: ${COMPOSE_PROJECT_NAME}-cron
+    command: sh -c "echo \"0 3 * * * wget -qO- http://app:8080/api/v1/cron/$STATIC_CRON_TOKEN\" | crontab - && crond -f -L /dev/stdout"

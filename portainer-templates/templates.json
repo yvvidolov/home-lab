@@ -99,54 +99,67 @@
       "type": 3,
       "title": "firefly-iii",
       "categories": [
+        "finance",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
+      "description": "keep track of your finances, has android apps and web interface",
+      "logo": "https://github.com/walkxcode/dashboard-icons/blob/main/png/firefly.png?raw=true",
       "note": "",
-      "platform": "",
+      "platform": "linux",
       "env": [
         {
           "label": "TZ",
           "name": "TZ",
-          "default": "Europe/Amsterdam",
-          "description": "timezone"
-        },
-        {
-          "label": "MYSQL_PASSWORD",
-          "name": "MYSQL_PASSWORD",
-          "default": "secret_firefly_password",
-          "description": "database password"
-        },
-        {
-          "label": "MYSQL_USER",
-          "name": "MYSQL_USER",
-          "default": "firefly",
+          "default": "Europe/Sofia",
           "description": ""
         },
         {
-          "label": "MYSQL_DATABASE",
-          "name": "MYSQL_DATABASE",
-          "default": "firefly",
+          "label": "DEFAULT_LOCALE",
+          "name": "DEFAULT_LOCALE",
+          "default": "equal",
           "description": ""
+        },
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/firefly",
+          "description": "where to storage persistent files"
+        },
+        {
+          "label": "PORT",
+          "name": "PORT",
+          "default": "8080",
+          "description": "publish host port for web interface"
         },
         {
           "label": "APP_URL",
           "name": "APP_URL",
-          "default": "http://localhost",
-          "description": "should match reverse proxy: https://firefly.domain.name"
+          "default": "https://firefly.example.com",
+          "description": "should match reverse proxy url"
+        },
+        {
+          "label": "MYSQL_PASSWORD",
+          "name": "MYSQL_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": "database password"
+        },
+        {
+          "label": "MYSQL_ROOT_PASSWORD",
+          "name": "MYSQL_ROOT_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": "database root password"
+        },
+        {
+          "label": "STATIC_CRON_TOKEN",
+          "name": "STATIC_CRON_TOKEN",
+          "default": "32_CHARACTERS_STATIC_CRON_TOKEN!",
+          "description": "needed to synchronize cron jobs"
         },
         {
           "label": "APP_KEY",
           "name": "APP_KEY",
           "default": "SomeRandomStringOf32CharsExactly",
-          "description": "secret encryption key"
-        },
-        {
-          "label": "TRUSTED_PROXIES",
-          "name": "TRUSTED_PROXIES",
-          "default": "**",
-          "description": "reverse proxy address. '**' allows all"
+          "description": "Encryption key, 32 chars, avoid ''"
         }
       ],
       "repository": {
