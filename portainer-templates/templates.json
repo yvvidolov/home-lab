@@ -39,6 +39,22 @@
     },
     {
       "type": 3,
+      "title": "mlan-mail",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/mlan-mail/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "cloudflare-ddns",
       "categories": [
         "network",
@@ -399,6 +415,90 @@
       ],
       "repository": {
         "stackfile": "docker-compose/nginx-proxy-manager/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "mailserver",
+      "categories": [
+        "network",
+        "home-lab"
+      ],
+      "description": "self host mail server with smtp relay and web client",
+      "logo": "https://github.com/docker-mailserver/docker-mailserver/blob/master/docs/content/assets/logo/.src/dmo-logo.png?raw=true",
+      "note": "<h3>mxrouting.net</h3>\n<p>We are going to use mxrouting as an smtp relay to avoid IP blacklisting and RTP dns check.<br />\nCurrent blackfriday deal 30\\$ for 3 year service (7200 mails per day).<br />\nLifetime account is 150\\$.</p>\n<ul>\n<li>Account Manager -&gt; Domain Setup -&gt; Add New -&gt; vidolov.net</li>\n<li>Account Manager -&gt; SSL Certificates -&gt; Disable SSL   </li>\n<li>E-mail Manager -&gt; Disable DKIM</li>\n<li>E-mail Manager -&gt; Create Accont -&gt; relay@vidolov.net</li>\n</ul>\n<h3>cloudflare DNS</h3>\n<p>Generate DKIM key\n<code>setup config dkim keysize 2048 domain 'example.com,not-example.com'</code></p>\n<ul>\n<li><code>CNAME</code> | <code>autoconfig</code> | <code>mail.vidolov.net</code></li>\n<li><code>CNAME</code> | <code>autodiscover</code> | <code>mail.vidolov.net</code></li>\n<li><code>CNAME</code> | <code>mail</code> | <code>vidolov.net</code></li>\n<li><code>MX</code> | <code>vidolov.net</code> | <code>mail.vidolov.net</code></li>\n<li><code>TXT</code> | <code>_dmarc</code> | <code>v=DMARC1; p=quarantine; sp=none; fo=0; adkim=r; aspf=r; pct=100; rf=afrf; ri=86400; rua=mailto:dmarc.report@vidolov.net; ruf=mailto:dmarc.report@vidolov.net</code></li>\n<li><code>TXT</code> | <code>mail._domainkey</code> | <code>v=DKIM1; k=rsa; p=[generated_key]</code> # generated DKIM key</li>\n<li><code>TXT</code> | <code>vidolov.net</code> | <code>v=spf1 include:mxroute.com -all</code></li>\n</ul>\n<h3>Public Ports</h3>\n<p>Following ports need to be port forwarded to the mail server: \n- <code>25</code> # SMTP\n- <code>587</code> # ESMTP\n- <code>143</code> # IMAP4\n- <code>993</code> # IMAP4</p>\n<h2>docker-mailserver</h2>\n<p><a href=\"https://docker-mailserver.github.io/docker-mailserver/latest/introduction/\">Official Documentation</a></p>\n<ul>\n<li>Share lets encrypt etc directory volume from nginx proxy manager</li>\n<li><code>docker compose up</code> # start the container or use portainer template</li>\n<li><code>docker exec -ti mailserver setup email add admin@vidolov.net [my_secret_password]</code> # execute through ssh on server</li>\n</ul>\n<h3>docker-mailserver command cheat sheet</h3>\n<p>Add new user: <code>docker exec -ti mailserver setup email add admin@vidolov.net [my_secret_password]</code><br />\nAdd user alias: <code>docker exec -ti mailserver setup alias add yavor@vidolov.net admin@vidolov.net</code><br />\nSet user quota: <code>docker exec -ti mailserver setup quota set admin@vidolov.net 10M</code><br />\nShow user verbose list: <code>docker exec -ti mailserver setup email list</code>  </p>\n<h2>RoundCube</h2>\n<blockquote>\n<p>NOTE: There seems to be a bug in docker sqlite assigned owners<br />\nExecute the following to fix: <code>chown -R root:root /zpool/docker/roundcube # ${PATH_ROUNDCUBE}</code></p>\n</blockquote>\n<h2>Testing email setup and deliverability</h2>\n<ul>\n<li>https://www.mail-tester.com/  </li>\n<li>https://mxtoolbox.com/deliverability</li>\n<li>https://mxtoolbox.com/SuperTool.aspx?action=dmarc%3amail.vidolov.net&amp;run=toolpage</li>\n</ul>",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "TZ",
+          "name": "TZ",
+          "default": "Europe/Sofia",
+          "description": ""
+        },
+        {
+          "label": "MAIL_HOSTNAME",
+          "name": "MAIL_HOSTNAME",
+          "default": "mail.vidolov.net",
+          "description": "MX and autoconf DNS entry to point the the mail server"
+        },
+        {
+          "label": "PATH_MAILSERVER",
+          "name": "PATH_MAILSERVER",
+          "default": "/zpool/docker/mailserver",
+          "description": "where to storage persistent files"
+        },
+        {
+          "label": "PATH_ROUNDCUBE",
+          "name": "PATH_ROUNDCUBE",
+          "default": "/zpool/docker/roundcube",
+          "description": "where to storage persistent files"
+        },
+        {
+          "label": "PATH_NPM_LETSENCRYPT",
+          "name": "PATH_NPM_LETSENCRYPT",
+          "default": "/zpool/docker/nginx-proxy-manager/letsencrypt",
+          "description": "Path to lets encrypt folder (setup by another container [nginx proxy manager])"
+        },
+        {
+          "label": "DEFAULT_RELAY_HOST",
+          "name": "DEFAULT_RELAY_HOST",
+          "default": "",
+          "description": "Use an SMTP relay"
+        },
+        {
+          "label": "RELAY_USER",
+          "name": "RELAY_USER",
+          "default": "",
+          "description": "SMTP relay user"
+        },
+        {
+          "label": "RELAY_PASSWORD",
+          "name": "RELAY_PASSWORD",
+          "default": "",
+          "description": "SMTP relay pass"
+        },
+        {
+          "label": "ROUNDCUBE_PORT",
+          "name": "ROUNDCUBE_PORT",
+          "default": "9000",
+          "description": "Publish web interface"
+        },
+        {
+          "label": "MAILBOX_SIZE_LIMIT",
+          "name": "MAILBOX_SIZE_LIMIT",
+          "default": "1024000000",
+          "description": "Default mailbox size in bytes"
+        },
+        {
+          "label": "MESSAGE_SIZE_LIMIT",
+          "name": "MESSAGE_SIZE_LIMIT",
+          "default": "50240000",
+          "description": "Max attachment size"
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/docker-mailserver/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
     }
