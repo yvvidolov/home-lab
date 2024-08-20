@@ -99,13 +99,99 @@
       "type": 3,
       "title": "authentik",
       "categories": [
+        "network",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
+      "description": "LDAP and OAUTH2 provider",
+      "logo": "https://github.com/goauthentik/authentik/blob/main/web/icons/icon.png?raw=true",
       "note": "<p>https://docs.goauthentik.io/docs/installation/docker-compose </p>",
-      "platform": "",
-      "env": [],
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/authentik",
+          "description": "persistent storage"
+        },
+        {
+          "label": "AUTHENTIK_SECRET_KEY",
+          "name": "AUTHENTIK_SECRET_KEY",
+          "default": "[CHANGE_ME]",
+          "description": "openssl rand -base64 60 | tr -d '\\n'"
+        },
+        {
+          "label": "PG_PASS",
+          "name": "PG_PASS",
+          "default": "[CHANGE_ME]",
+          "description": "setup the database password"
+        },
+        {
+          "label": "PG_USER",
+          "name": "PG_USER",
+          "default": "authentik",
+          "description": ""
+        },
+        {
+          "label": "PG_DB",
+          "name": "PG_DB",
+          "default": "authentik",
+          "description": ""
+        },
+        {
+          "label": "COMPOSE_PORT_HTTP",
+          "name": "COMPOSE_PORT_HTTP",
+          "default": "88",
+          "description": "expose web ui port"
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__HOST",
+          "name": "AUTHENTIK_EMAIL__HOST",
+          "default": "",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__PORT",
+          "name": "AUTHENTIK_EMAIL__PORT",
+          "default": "25",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__USERNAME",
+          "name": "AUTHENTIK_EMAIL__USERNAME",
+          "default": "",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__PASSWORD",
+          "name": "AUTHENTIK_EMAIL__PASSWORD",
+          "default": "",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__USE_TLS",
+          "name": "AUTHENTIK_EMAIL__USE_TLS",
+          "default": "false",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__USE_SSL",
+          "name": "AUTHENTIK_EMAIL__USE_SSL",
+          "default": "true",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__TIMEOUT",
+          "name": "AUTHENTIK_EMAIL__TIMEOUT",
+          "default": "10",
+          "description": ""
+        },
+        {
+          "label": "AUTHENTIK_EMAIL__FROM",
+          "name": "AUTHENTIK_EMAIL__FROM",
+          "default": "authentik@vidolov.net",
+          "description": ""
+        }
+      ],
       "repository": {
         "stackfile": "docker-compose/authentik/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
@@ -362,6 +448,22 @@
     },
     {
       "type": 3,
+      "title": "onlyoffice",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/onlyoffice/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "gitea",
       "categories": [
         "home-lab"
@@ -499,6 +601,22 @@
       ],
       "repository": {
         "stackfile": "docker-compose/docker-mailserver/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "taiga",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "<p>https://github.com/docker-taiga/taiga </p>",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/taiga/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
     }
