@@ -21922,13 +21922,39 @@
       "type": 3,
       "title": "gitea",
       "categories": [
+        "source-control",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
-      "note": "",
-      "platform": "",
-      "env": [],
+      "description": "github foss clone, source control, issue tracker, ci/cd, wiki",
+      "logo": "https://github.com/go-gitea/gitea/blob/main/public/assets/img/logo.png?raw=true",
+      "note": "<p>After installation:\n- Open <code>192.168.2.2:${PORT_HTTP}</code>\n- Site Title: <code>gitea: vidolov.net</code>\n- Server Domain: <code>gitea.vidolov.net</code>\n- SSH server port: <code>222</code>\n- Gitea base URL: <code>https://gitea.vidolov.net/</code>\n- EMail Settings (optional):\n- Server and Third party settings:\n  - Enable OpenID Sign-in: <code>False</code>\n  - Disable Self-Registration: <code>True</code>\n  - Require Sign-in to View Pages: ?\n- Administrator Account Settings:\n  - Username: <code>gitea</code> # <code>admin</code> is reserved\n  - Email address: <code>gitea@vidolov.net</code>\n  - Password: <code>my_secret_password</code></p>\n<p>After login:\n- Open: Settings -&gt; Site Administration\n- Identity &amp; Access -&gt; Authentication Sources\n- Actions -&gt; Runners</p>",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/gitea",
+          "description": "persistent storage"
+        },
+        {
+          "label": "PORT_SSH",
+          "name": "PORT_SSH",
+          "default": "222",
+          "description": "for cloning git repo"
+        },
+        {
+          "label": "PORT_HTTP",
+          "name": "PORT_HTTP",
+          "default": "8001",
+          "description": "web interface"
+        },
+        {
+          "label": "DB_PASSWORD",
+          "name": "DB_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        }
+      ],
       "repository": {
         "stackfile": "docker-compose/gitea/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
@@ -22064,13 +22090,99 @@
       "type": 3,
       "title": "taiga",
       "categories": [
+        "project-management",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
+      "description": "project management, agile, kanban, issue tracker",
+      "logo": "https://raw.githubusercontent.com/taigaio/taiga-front/91bea87500cada61fe866b13369133b9e054504d/app/svg/logo.svg",
       "note": "<p>https://github.com/docker-taiga/taiga </p>",
-      "platform": "",
-      "env": [],
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PORT",
+          "name": "PORT",
+          "default": "9000",
+          "description": "expose webui port"
+        },
+        {
+          "label": "TAIGA_SCHEME",
+          "name": "TAIGA_SCHEME",
+          "default": "http",
+          "description": "serve Taiga using \"http\" or \"https\" (secured) connection"
+        },
+        {
+          "label": "TAIGA_DOMAIN",
+          "name": "TAIGA_DOMAIN",
+          "default": "taiga.vidolov.net",
+          "description": "Taiga's base URL"
+        },
+        {
+          "label": "SUBPATH",
+          "name": "SUBPATH",
+          "default": "\"\"",
+          "description": "it'll be appended to the TAIGA_DOMAIN (use either \"\" or a \"/subpath\")"
+        },
+        {
+          "label": "WEBSOCKETS_SCHEME",
+          "name": "WEBSOCKETS_SCHEME",
+          "default": "ws",
+          "description": "events connection protocol (use either \"ws\" or \"wss\")"
+        },
+        {
+          "label": "SECRET_KEY",
+          "name": "SECRET_KEY",
+          "default": "6wwbhp1j4p12ih4vp12hnv",
+          "description": "Please, change it to an unpredictable value!!"
+        },
+        {
+          "label": "POSTGRES_USER",
+          "name": "POSTGRES_USER",
+          "default": "taiga",
+          "description": "user to connect to PostgreSQL"
+        },
+        {
+          "label": "POSTGRES_PASSWORD",
+          "name": "POSTGRES_PASSWORD",
+          "default": "6wwbhp1j4p12ih4vp12hnv",
+          "description": "database user's password"
+        },
+        {
+          "label": "RABBITMQ_USER",
+          "name": "RABBITMQ_USER",
+          "default": "taiga",
+          "description": "user to connect to RabbitMQ"
+        },
+        {
+          "label": "RABBITMQ_PASS",
+          "name": "RABBITMQ_PASS",
+          "default": "6wwbhp1j4p12ih4vp12hnv",
+          "description": "RabbitMQ user's password"
+        },
+        {
+          "label": "RABBITMQ_VHOST",
+          "name": "RABBITMQ_VHOST",
+          "default": "taiga",
+          "description": "RabbitMQ container name"
+        },
+        {
+          "label": "RABBITMQ_ERLANG_COOKIE",
+          "name": "RABBITMQ_ERLANG_COOKIE",
+          "default": "6wwbhp1j4p12ih4vp12hnv",
+          "description": "unique value shared by any connected instance of RabbitMQ"
+        },
+        {
+          "label": "ATTACHMENTS_MAX_AGE",
+          "name": "ATTACHMENTS_MAX_AGE",
+          "default": "360",
+          "description": "token expiration date (in seconds)"
+        },
+        {
+          "label": "ENABLE_TELEMETRY",
+          "name": "ENABLE_TELEMETRY",
+          "default": "False",
+          "description": ""
+        }
+      ],
       "repository": {
         "stackfile": "docker-compose/taiga/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
