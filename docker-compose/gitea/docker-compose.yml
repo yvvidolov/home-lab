@@ -14,9 +14,11 @@ services:
       # - USER_UID=1000
       # - USER_GID=1000
 
+      - APP_NAME="gitea vidolov.net"
+      - DOMAIN=gitea.vidolov.net
       - SSH_PORT         = ${PORT_SSH}
-      - SSH_LISTEN_PORT  = ${PORT_SSH}
-      - START_SSH_SERVER = true
+      # - SSH_LISTEN_PORT  = ${PORT_SSH}
+      # - START_SSH_SERVER = true
 
       - GITEA__database__DB_TYPE=postgres
       - GITEA__database__HOST=db:5432
@@ -36,12 +38,12 @@ services:
       # - GITEA__security__SECRET_KEY=[value returned by generate secret SECRET_KEY]
       # - GITEA__security__INTERNAL_TOKEN=[value returned by generate secret INTERNAL_TOKEN]
     volumes:
-      - ${PATH_DOCKER}/gitea:/data
+      - ${PATH_HOST}/gitea:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
       - "${PORT_HTTP}:3000"
-      - "${PORT_SSH}:${PORT_SSH}" 
+      - "${PORT_SSH}:22" 
     depends_on:
       - db
 
@@ -54,4 +56,4 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=gitea
     volumes:
-      - ${PATH_DOCKER}/postgres:/var/lib/postgresql/data
+      - ${PATH_HOST}/postgres:/var/lib/postgresql/data

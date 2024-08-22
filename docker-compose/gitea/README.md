@@ -18,3 +18,11 @@ After login:
 - Open: Settings -> Site Administration
 - Identity & Access -> Authentication Sources
 - Actions -> Runners
+
+From OMV SSH:
+- `nano /zpool/docker/gitea/gitea/conf.app.ini`
+- `[server]`
+  - `MINIMUM_KEY_SIZE_CHECK = false`
+
+From Internet Router:
+- Add WAN port forward: `omv_gitea_ssh`: `8022` -> `192.168.2.2:8022`
