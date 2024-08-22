@@ -73,7 +73,9 @@ def parse_docker_dirs(debug=False):
         if os.path.exists(readme_file):
             with open(readme_file, 'r', encoding='utf-8') as f:
                 markdown_data = f.read()
-                note_html = markdown.markdown(markdown_data)
+                # note_html = markdown.markdown(markdown_data)
+                note_html = markdown.markdown(markdown_data, extensions=['extra', 'nl2br'])
+
 
         # Parse .yml file and find metadata describing the package
         yml_data = {}
