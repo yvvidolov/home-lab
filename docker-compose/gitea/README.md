@@ -2,7 +2,6 @@ After installation:
 - Open `192.168.2.2:${PORT_HTTP}`
 - Site Title: `gitea: vidolov.net`
 - Server Domain: `gitea.vidolov.net`
-- SSH server port: `222`
 - Gitea base URL: `https://gitea.vidolov.net/`
 - EMail Settings (optional):
 - Server and Third party settings:
@@ -20,8 +19,10 @@ After login:
 - Actions -> Runners
 
 From OMV SSH:
-- `nano /zpool/docker/gitea/gitea/conf.app.ini`
+- `nano /zpool/docker/gitea/gitea/gitea/conf/app.ini`
 - `[server]`
+  - `SSH_DOMAIN = vidolov.net`
+  - `SSH_PORT = 8022`
   - `MINIMUM_KEY_SIZE_CHECK = false`
 
 From Internet Router:

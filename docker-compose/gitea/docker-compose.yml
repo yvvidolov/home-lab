@@ -16,9 +16,6 @@ services:
 
       - APP_NAME="gitea vidolov.net"
       - DOMAIN=gitea.vidolov.net
-      - SSH_PORT         = ${PORT_SSH}
-      # - SSH_LISTEN_PORT  = ${PORT_SSH}
-      # - START_SSH_SERVER = true
 
       - GITEA__database__DB_TYPE=postgres
       - GITEA__database__HOST=db:5432
