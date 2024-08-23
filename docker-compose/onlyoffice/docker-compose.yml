@@ -1,0 +1,65 @@
+services:
+  onlyoffice-documentserver:
+    image: onlyoffice/documentserver
+    container_name: ${COMPOSE_PROJECT_NAME}-documentserver
+    restart: unless-stopped
+    depends_on:
+      - onlyoffice-postgresql
+      - onlyoffice-rabbitmq
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=onlyoffice-postgresql
+      - DB_PORT=5432
+      - DB_NAME=onlyoffice
+      - DB_USER=onlyoffice
+      - AMQP_URI=amqp://guest:guest@onlyoffice-rabbitmq
+      # Uncomment strings below to enable the JSON Web Token validation.
+      #- JWT_ENABLED=true
+      #- JWT_SECRET=secret
+      #- JWT_HEADER=Authorization
+      #- JWT_IN_BODY=true
+    ports:
+      - '${PORT_HTTP}:80'
+      # - '445:443'
+    stdin_open: true
+    stop_grace_period: 60s
+    volumes:
+      #  - ${PATH_HOST}/data:/var/www/onlyoffice/Data
+      #  - ${PATH_HOST}/log:/var/log/onlyoffice
+      #  - ${PATH_HOST}/cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
+      #  - ${PATH_HOST}/public:/var/www/onlyoffice/documentserver-example/public/files
+      #  - ${PATH_HOST}/fonts:/usr/share/fonts
+
+      - ${PATH_HOST}/data:/var/www/onlyoffice/Data
+      - ${PATH_HOST}/public:/var/www/onlyoffice/documentserver-example/public/files
+      - ${PATH_HOST}/lib:/var/log/onlyoffice
+      - ${PATH_HOST}/oc:/var/lib/onlyoffice
+      - ${PATH_HOST}/cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
+      - ${PATH_HOST}/redit:/var/lib/redis
+      - ${PATH_HOST}/fonts:/usr/share/fonts
+      - ${PATH_HOST}/truetype:/usr/share/fonts/truetype/custom
+      - ${PATH_HOST}/postgresql:/var/lib/postgresql
+      - ${PATH_HOST}/rabbitmq:/var/lib/rabbitmq
+       
+  onlyoffice-rabbitmq:
+    image: rabbitmq
+    container_name: ${COMPOSE_PROJECT_NAME}-rabbitmq
+    restart: unless-stopped
+    # expose:
+    #   - '5672'
+    volumes:
+      - ${PATH_HOST}/rabbitmq:/var/lib/rabbitmq
+
+  onlyoffice-postgresql:
+    image: postgres:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-postgresql
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=onlyoffice
+      - POSTGRES_USER=onlyoffice
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    # expose:
+    #   - '5432'
+    volumes:
+      - ${PATH_HOST}/postgresql:/var/lib/postgresql
+      - ${PATH_HOST}/postgresql_data:/var/lib/postgresql/data

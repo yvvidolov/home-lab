@@ -55,6 +55,71 @@
     },
     {
       "type": 3,
+      "title": "gitlab",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/gitlab",
+          "description": "persistent storage"
+        },
+        {
+          "label": "PORT_SSH",
+          "name": "PORT_SSH",
+          "default": "8023",
+          "description": "for cloning git repo"
+        },
+        {
+          "label": "PORT_HTTP",
+          "name": "PORT_HTTP",
+          "default": "8010",
+          "description": "web interface"
+        },
+        {
+          "label": "DB_PASSWORD",
+          "name": "DB_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "GITLAB_SECRETS_OTP_KEY_BASE",
+          "name": "GITLAB_SECRETS_OTP_KEY_BASE",
+          "default": "[64_random_characters]",
+          "description": "encrypt 2FA secrets"
+        },
+        {
+          "label": "GITLAB_SECRETS_DB_KEY_BASE",
+          "name": "GITLAB_SECRETS_DB_KEY_BASE",
+          "default": "[64_random_characters]",
+          "description": "encrypt CI secret"
+        },
+        {
+          "label": "GITLAB_SECRETS_SECRET_KEY_BASE",
+          "name": "GITLAB_SECRETS_SECRET_KEY_BASE",
+          "default": "[64_random_characters]",
+          "description": "password reset links"
+        },
+        {
+          "label": "GITLAB_SECRETS_ENCRYPTED_SETTINGS_KEY_BASE",
+          "name": "GITLAB_SECRETS_ENCRYPTED_SETTINGS_KEY_BASE",
+          "default": "[64_random_characters]",
+          "description": "settings from encrypted files"
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/gitlab/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "cloudflare-ddns",
       "categories": [
         "network",
@@ -330,7 +395,7 @@
       ],
       "description": "issue tracker",
       "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Redmine_logo.svg/719px-Redmine_logo.svg.png?20101216135906",
-      "note": "First login:<br/>username: admin<br/>password: admin<br/>Make sure you visit the Administration link and Load the default configuration before creating any projects.",
+      "note": "<ul>\n<li>First login <code>admin:admin</code></li>\n<li>Administration -&gt; Settings -&gt; General</li>\n<li>Host name: <code>redmine.vidolov.net</code></li>\n<li>Protocol: <code>https</code></li>\n<li>Administration -&gt; Settings -&gt; Authentication</li>\n<li>Authentication required: <code>Yes</code></li>\n<li>Self-registration: <code>disabled</code></li>\n<li>Administration -&gt; LDAP authentication</li>\n<li>SMPT?</li>\n<li>Plugins?</li>\n</ul>",
       "platform": "linux",
       "env": [
         {
@@ -466,7 +531,20 @@
       "logo": "",
       "note": "",
       "platform": "",
-      "env": [],
+      "env": [
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/onlyoffice",
+          "description": "persistent storage"
+        },
+        {
+          "label": "PORT_HTTP",
+          "name": "PORT_HTTP",
+          "default": "8012",
+          "description": "web interface"
+        }
+      ],
       "repository": {
         "stackfile": "docker-compose/onlyoffice/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
