@@ -17,7 +17,7 @@ services:
       - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MARIADB_AUTO_UPGRADE=1
     volumes:
-      - ${PATH_DOCKER}/redmine/mariadb:/var/lib/mysql
+      - ${PATH_DOCKER}/mariadb:/var/lib/mysql
     command:
       - mariadbd
       - --transaction-isolation=READ-COMMITTED
@@ -34,7 +34,7 @@ services:
 
   redmine:
     image: redmine:latest
-    container_name: ${COMPOSE_PROJECT_NAME}-redmine
+    container_name: ${COMPOSE_PROJECT_NAME}
     restart: unless-stopped
     depends_on:
       - database
@@ -53,4 +53,4 @@ services:
       # - MEMCACHE_HOST=memcached # Doesn't seem to be supported
 
     volumes:
-      - ${PATH_DOCKER}/redmine/files:/usr/src/redmine/files
+      - ${PATH_DOCKER}/files:/usr/src/redmine/files

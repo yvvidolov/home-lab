@@ -21493,6 +21493,22 @@
     },
     {
       "type": 3,
+      "title": "openproject",
+      "categories": [
+        "home-lab"
+      ],
+      "description": "",
+      "logo": "",
+      "note": "",
+      "platform": "",
+      "env": [],
+      "repository": {
+        "stackfile": "docker-compose/openproject/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "authentik",
       "categories": [
         "network",
@@ -21626,13 +21642,13 @@
         {
           "label": "PORT",
           "name": "PORT",
-          "default": "8080",
+          "default": "8007",
           "description": "publish host port for web interface"
         },
         {
           "label": "APP_URL",
           "name": "APP_URL",
-          "default": "https://firefly.example.com",
+          "default": "https://firefly.vidolov.net",
           "description": "should match reverse proxy url"
         },
         {
@@ -21716,14 +21732,8 @@
         {
           "label": "PATH_DOCKER",
           "name": "PATH_DOCKER",
-          "default": "/home/users/yvvidolov/work/projects/home-lab/temp",
-          "description": ""
-        },
-        {
-          "label": "PATH_SECRET",
-          "name": "PATH_SECRET",
-          "default": "/home/users/yvvidolov/work/projects/home-lab/temp/secrets",
-          "description": ""
+          "default": "/zpool/docker/redmine",
+          "description": "Path for persistent host mounted volumes"
         },
         {
           "label": "TZ",
@@ -21734,7 +21744,7 @@
         {
           "label": "PORT",
           "name": "PORT",
-          "default": "8080",
+          "default": "8008",
           "description": ""
         },
         {
