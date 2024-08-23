@@ -1,0 +1,124 @@
+#name: nextcloud
+#categories: cloud
+#description: File sharing, contacts, chat/video conferencing, calendar
+#platform: linux
+#logo: https://github.com/walkxcode/dashboard-icons/blob/main/png/nextcloud.png?raw=true
+#note: 
+
+services:
+  nextcloud_db:
+    image: mariadb
+    container_name: ${COMPOSE_PROJECT_NAME}-db
+    restart: unless-stopped
+    command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
+    volumes:
+      - ${PATH_HOST_DOCKER}/mariadb:/var/lib/mysql
+    environment:
+      - TZ=Europe/Sofia
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=nextcloud_database
+      - MYSQL_USER=nextcloud_user
+    healthcheck:
+      test: ["CMD", "mariadb", "--user=nextcloud_user",  "--password=${DB_PASSWORD}", "--execute", "use nextcloud_database; show tables;"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+
+  nextcloud_redis:
+    image: redis:alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    volumes:
+      - ${PATH_HOST_DOCKER}/redis:/data
+    restart: unless-stopped
+
+
+  nextcloud:
+    image: nextcloud
+    container_name: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+    ports:
+      - ${PORT_HTTP}:80
+    volumes:
+      - ${PATH_HOST_DOCKER}/nextcloud:/var/www/html # /var/www/html/custom_apps, /var/www/html/config, /var/www/html/themes
+      - ${PATH_HOST_USERS}:/var/www/html/data # all nextcloud users files
+
+    environment:
+      # Timezone
+      - TZ=Europe/Sofia
+
+      # Database
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=nextcloud_database
+      - MYSQL_USER=nextcloud_user
+      - MYSQL_HOST=nextcloud_db
+
+      # Admin
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+
+      # NC
+      # - NEXTCLOUD_DATA_DIR=/data # can't set outside www because of permission issues
+      - NEXTCLOUD_TRUSTED_DOMAINS=cloud.vidolov.net 192.168.2.2
+      - TRUSTED_PROXIES=192.168.2.2
+
+      # REDIS
+      - REDIS_HOST=nextcloud_redis
+      # - REDIS_HOST_PORT=6379
+      # - REDIS_HOST_PASSWORD=
+
+      # PHP
+      - PHP_MEMORY_LIMIT=${PHP_SCRIPT_MAX_MEMORY}
+      - PHP_UPLOAD_LIMIT=${FILE_UPLOAD_MAX_SIZE}
+      # - APACHE_BODY_LIMIT=0 # default 1073741824 (1gb)
+
+      # SMTP
+      # SMTP_HOST (not set by default): The hostname of the SMTP server.
+      # SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
+      # SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
+      # SMTP_AUTHTYPE (default: LOGIN): The method used for authentication. Use PLAIN if no authentication is required.
+      # SMTP_NAME (empty by default): The username for the authentication.
+      # SMTP_PASSWORD (empty by default): The password for the authentication.
+      # MAIL_FROM_ADDRESS (not set by default): Set the local-part for the 'from' field in the emails sent by Nextcloud.
+      # MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
+      # At least SMTP_HOST, MAIL_FROM_ADDRESS and MAIL_DOMAIN must be set for the configurations to be applied.
+
+    depends_on:
+      nextcloud_redis:
+        condition: service_started
+      nextcloud_db:
+        condition: service_healthy
+
+
+  coturn:
+    image: coturn/coturn:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-coturn
+    restart: unless-stopped
+    # volumes:
+    #   - ./coturn/turnserver.conf:/etc/turnserver.conf:ro
+    #   - ./coturn/privkey.pem:/etc/ssl/private/privkey.pem:ro
+    #   - ./coturn/cert.pem:/etc/ssl/certs/cert.pem:ro
+    ports:
+      # STUN/TURN
+      - "3478:3478"
+      - "3478:3478/udp"
+      # - "3479:3479"
+      # - "3479:3479/udp"
+      - "9080:80"
+      - "9080:80/udp"
+      # STUN/TURN SSL
+      - "5349:5349"
+      - "5349:5349/udp"
+      # - "5350:5350"
+      # - "5350:5350/udp"
+      - "9443:443"
+      - "9443:443/udp"
+      # Relay Ports
+      - "65000-65005:65000-65005"
+      - "65000-65005:65000-65005/udp"
+    environment:
+      - TURN_ENABLE=1
+      - TURN_SECRET=uirh(rh(*He@!hd02h
+      - MIN_PORT=65000
+      - MAX_PORT=65005
