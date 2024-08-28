@@ -25,6 +25,7 @@ x-op-app: &app
     IMAP_ENABLED: "${IMAP_ENABLED:-false}"
   volumes:
     - "${OPDATA}:/var/openproject/assets"
+    - "${PGDATA}:/var/openproject/pgdata"
 
 services:
   db:
@@ -96,6 +97,8 @@ services:
     <<: *app
     container_name: ${COMPOSE_PROJECT_NAME}-cron
     command: "./docker/prod/cron"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
       - db
       - cache
