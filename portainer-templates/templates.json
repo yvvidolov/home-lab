@@ -164,13 +164,81 @@
       "type": 3,
       "title": "openproject",
       "categories": [
+        "project-management",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
+      "description": "Project management, Issue tracker",
+      "logo": "https://raw.githubusercontent.com/opf/openproject/0f19e85e2a8e290234e7d31fa74732294370ec72/app/assets/images/icon_logo.svg",
       "note": "",
-      "platform": "",
-      "env": [],
+      "platform": "linux",
+      "env": [
+        {
+          "label": "TAG",
+          "name": "TAG",
+          "default": "14-slim",
+          "description": "which version to install"
+        },
+        {
+          "label": "OPENPROJECT_HTTPS",
+          "name": "OPENPROJECT_HTTPS",
+          "default": "true",
+          "description": "true for reverse proxy with ssl"
+        },
+        {
+          "label": "OPENPROJECT_HOST__NAME",
+          "name": "OPENPROJECT_HOST__NAME",
+          "default": "openproject.vidolov.net",
+          "description": "hostname (FQDN)"
+        },
+        {
+          "label": "PORT",
+          "name": "PORT",
+          "default": "0.0.0.0:8009",
+          "description": "0.0.0.0:PORT to listen on all interfaces"
+        },
+        {
+          "label": "OPENPROJECT_RAILS__RELATIVE__URL__ROOT",
+          "name": "OPENPROJECT_RAILS__RELATIVE__URL__ROOT",
+          "default": "",
+          "description": ""
+        },
+        {
+          "label": "IMAP_ENABLED",
+          "name": "IMAP_ENABLED",
+          "default": "false",
+          "description": ""
+        },
+        {
+          "label": "DATABASE_URL",
+          "name": "DATABASE_URL",
+          "default": "postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true",
+          "description": ""
+        },
+        {
+          "label": "RAILS_MIN_THREADS",
+          "name": "RAILS_MIN_THREADS",
+          "default": "4",
+          "description": ""
+        },
+        {
+          "label": "RAILS_MAX_THREADS",
+          "name": "RAILS_MAX_THREADS",
+          "default": "16",
+          "description": ""
+        },
+        {
+          "label": "PGDATA",
+          "name": "PGDATA",
+          "default": "\"/zpool/docker/postgresql\"",
+          "description": "host persistent database"
+        },
+        {
+          "label": "OPDATA",
+          "name": "OPDATA",
+          "default": "\"/zpool/docker/assets\"",
+          "description": "host persistent assets"
+        }
+      ],
       "repository": {
         "stackfile": "docker-compose/openproject/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
@@ -565,13 +633,13 @@
         {
           "label": "PATH_HOST_DOCKER",
           "name": "PATH_HOST_DOCKER",
-          "default": "/zpool/docker/nextcloud",
+          "default": "./nextcloud",
           "description": "persistent storage for nextcloud database"
         },
         {
           "label": "PATH_HOST_USERS",
           "name": "PATH_HOST_USERS",
-          "default": "/zpool/users",
+          "default": "./users",
           "description": "persistent storage for nextcloud user files"
         },
         {
@@ -583,19 +651,19 @@
         {
           "label": "DB_PASSWORD",
           "name": "DB_PASSWORD",
-          "default": "[CHANGE_ME]",
+          "default": "34534534534",
           "description": ""
         },
         {
           "label": "DB_ROOT_PASSWORD",
           "name": "DB_ROOT_PASSWORD",
-          "default": "[CHANGE_ME]",
+          "default": "gergergergerge",
           "description": ""
         },
         {
           "label": "NEXTCLOUD_ADMIN_PASSWORD",
           "name": "NEXTCLOUD_ADMIN_PASSWORD",
-          "default": "[CHANGE_ME]",
+          "default": "8706291987",
           "description": ""
         },
         {
