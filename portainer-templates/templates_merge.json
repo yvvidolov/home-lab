@@ -21435,30 +21435,15 @@
     },
     {
       "type": 3,
-      "title": "mlan-mail",
-      "categories": [
-        "home-lab"
-      ],
-      "description": "",
-      "logo": "",
-      "note": "",
-      "platform": "",
-      "env": [],
-      "repository": {
-        "stackfile": "docker-compose/mlan-mail/docker-compose.yml",
-        "url": "https://github.com/yvvidolov/home-lab"
-      }
-    },
-    {
-      "type": 3,
       "title": "gitlab",
       "categories": [
+        "source-control",
         "home-lab"
       ],
-      "description": "",
-      "logo": "",
-      "note": "",
-      "platform": "",
+      "description": "Git, issue tracker, wiki, CI/CD",
+      "logo": "https://raw.githubusercontent.com/gitlabhq/gitlabhq/50c211f1cdc8a636ef8adea73eaf4b8f3ac4387b/app/assets/images/logo.svg",
+      "note": "<p>For first login:<br />\n- find password: <code>sudo docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password</code><br />\n- or use initial_root_password set in installation .env<br />\n- login using: <code>root:[PASS]</code></p>\n<p>Do not forget to disable User registration from admin panel</p>",
+      "platform": "linux",
       "env": [
         {
           "label": "PATH_HOST",
@@ -21475,38 +21460,26 @@
         {
           "label": "PORT_HTTP",
           "name": "PORT_HTTP",
-          "default": "8010",
+          "default": "8002",
           "description": "web interface"
         },
         {
-          "label": "DB_PASSWORD",
-          "name": "DB_PASSWORD",
-          "default": "[CHANGE_ME]",
+          "label": "FQDN",
+          "name": "FQDN",
+          "default": "gitlab.vidolov.net",
           "description": ""
         },
         {
-          "label": "GITLAB_SECRETS_OTP_KEY_BASE",
-          "name": "GITLAB_SECRETS_OTP_KEY_BASE",
-          "default": "[64_random_characters]",
-          "description": "encrypt 2FA secrets"
+          "label": "REVERSE_PROXY_IP",
+          "name": "REVERSE_PROXY_IP",
+          "default": "192.168.2.2",
+          "description": ""
         },
         {
-          "label": "GITLAB_SECRETS_DB_KEY_BASE",
-          "name": "GITLAB_SECRETS_DB_KEY_BASE",
-          "default": "[64_random_characters]",
-          "description": "encrypt CI secret"
-        },
-        {
-          "label": "GITLAB_SECRETS_SECRET_KEY_BASE",
-          "name": "GITLAB_SECRETS_SECRET_KEY_BASE",
-          "default": "[64_random_characters]",
-          "description": "password reset links"
-        },
-        {
-          "label": "GITLAB_SECRETS_ENCRYPTED_SETTINGS_KEY_BASE",
-          "name": "GITLAB_SECRETS_ENCRYPTED_SETTINGS_KEY_BASE",
-          "default": "[64_random_characters]",
-          "description": "settings from encrypted files"
+          "label": "INITIAL_ROOT_PASSWORD",
+          "name": "INITIAL_ROOT_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
         }
       ],
       "repository": {
@@ -21565,7 +21538,7 @@
       ],
       "description": "Project management, Issue tracker",
       "logo": "https://raw.githubusercontent.com/opf/openproject/0f19e85e2a8e290234e7d31fa74732294370ec72/app/assets/images/icon_logo.svg",
-      "note": "",
+      "note": "<p>After install login with: admin:admin and change password</p>",
       "platform": "linux",
       "env": [
         {
@@ -21625,13 +21598,13 @@
         {
           "label": "PGDATA",
           "name": "PGDATA",
-          "default": "\"/zpool/docker/postgresql\"",
+          "default": "\"/zpool/docker/openproject/postgresql\"",
           "description": "host persistent database"
         },
         {
           "label": "OPDATA",
           "name": "OPDATA",
-          "default": "\"/zpool/docker/assets\"",
+          "default": "\"/zpool/docker/openproject/assets\"",
           "description": "host persistent assets"
         }
       ],

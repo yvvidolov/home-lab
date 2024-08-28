@@ -1,0 +1,33 @@
+#name: gitlab
+#categories: source-control
+#description: Git, issue tracker, wiki, CI/CD
+#platform: linux
+#logo: https://raw.githubusercontent.com/gitlabhq/gitlabhq/50c211f1cdc8a636ef8adea73eaf4b8f3ac4387b/app/assets/images/logo.svg
+#note: 
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+    hostname: '${FQDN}'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        external_url 'https://${FQDN}'
+        letsencrypt['enable'] = false
+        # letsencrypt['disable']
+        gitlab_rails['initial_root_password'] = '${INITIAL_ROOT_PASSWORD}'
+        gitlab_rails['allowed_hosts'] = ['${FQDN}', '${REVERSE_PROXY_IP}', '127.0.0.1', 'localhost']
+        nginx['listen_https'] = false
+        # gitlab_rails['gitlab_username_changing_enabled'] = true
+        gitlab_rails['time_zone'] = 'Europe/Sofia'
+    ports:
+      - ${PORT_HTTP}:80
+      # - 443:443
+      - ${PORT_SSH}:22
+    volumes:
+      - '${PATH_HOST}/config:/etc/gitlab'
+      - '${PATH_HOST}/logs:/var/log/gitlab'
+      - '${PATH_HOST}/data:/var/opt/gitlab'
+    shm_size: '256m'
