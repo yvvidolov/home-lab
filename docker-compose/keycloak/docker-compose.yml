@@ -1,0 +1,57 @@
+#name: keycloak
+#categories: authentication
+#description: LDAP provider, OIDC, SAML
+#platform: linux
+#logo: 
+#note: 
+
+services:
+  postgres:
+    image: docker.io/library/postgres:16-alpine # postgres:16.2
+    volumes:
+      - ${PATH_HOST}/postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak_db
+      POSTGRES_USER: keycloak_db_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest # :23.0.6
+    command: start
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak_db
+      KC_DB_USERNAME: keycloak_db_user
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${PORT_KEYCLOAK}:8080
+    restart: always
+    depends_on:
+      - postgres
+
+  openldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      - LDAP_ORGANISATION="MyCompany Inc."
+      - LDAP_DOMAIN=mycompany.com
+    ports:
+      - "${PORT_LDAP}:389"
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    container_name: phpldapadmin
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+    ports:
+      - "${PORT_LDAP_ADMIN}:443"
+    depends_on:
+      - openldap
