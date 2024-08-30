@@ -21622,7 +21622,7 @@
       ],
       "description": "LDAP and OAUTH2 provider",
       "logo": "https://github.com/goauthentik/authentik/blob/main/web/icons/icon.png?raw=true",
-      "note": "<p><a href=\"https://docs.goauthentik.io/docs/installation/docker-compose\">Official Docs</a></p>\n<p>First install: <code>http://192.168.2.2:88/if/flow/initial-setup/</code></p>",
+      "note": "<p><a href=\"https://docs.goauthentik.io/docs/installation/docker-compose\">Official Docs</a></p>\n<p>First install: <code>http://192.168.2.2:88/if/flow/initial-setup/</code></p>\n<h2>LDAP setup</h2>\n<p>https://www.youtube.com/watch?v=RtPKMMKRT_E</p>\n<blockquote>\n<p>NOTE: ldap provider needs search group added, the search group should contain the bind user!</p>\n</blockquote>",
       "platform": "linux",
       "env": [
         {
@@ -21996,7 +21996,7 @@
       ],
       "description": "File sharing, contacts, chat/video conferencing, calendar",
       "logo": "https://github.com/walkxcode/dashboard-icons/blob/main/png/nextcloud.png?raw=true",
-      "note": "<blockquote>\n<p>NOTE: Beware of coturn port forward range: even 500 ports take 10gb ram!!</p>\n</blockquote>",
+      "note": "<blockquote>\n<p>NOTE: Beware of coturn port forward range: even 500 ports take 10gb ram!!</p>\n</blockquote>\n<h3>SingleSignOn</h3>\n<h4>OpenID</h4>\n<ul>\n<li>Admin -&gt; Apps -&gt; Social -&gt; OpenID Connect user backend</li>\n<li>Admin -&gt; Administration Settings -&gt; OpenID Connect</li>\n<li>Identifier: <code>Authentik</code></li>\n<li>Client ID: <code>[Copy from Authentic Provider]</code></li>\n<li>Client secret: <code>[Copy from Authentic Provider]</code></li>\n<li>Discovery endpoint: <code>https://authentik.vidolov.net/application/o/nextcloud/.well-known/openid-configuration</code></li>\n<li>Scope: <code>openid email profile</code></li>\n<li>User ID mapping: <code>preferred_username</code></li>\n<li>Use unique user id: <code>Uncheck</code></li>\n<li>Auto provision: ?</li>\n</ul>\n<h4>LDAP</h4>\n<ul>\n<li>Admin -&gt; Apps -&gt; App Bundles -&gt; LDAP user and group backend </li>\n<li>Admin -&gt; Administration Settings -&gt; LDAP/AD integration</li>\n<li>Server: <code>192.168.2.2</code> <code>389</code></li>\n<li><code>cn=ldapservice,ou=users,DC=ldap,DC=goauthentik,DC=io</code></li>\n<li><code>[ldapservice user password from authentik]</code></li>\n<li><code>DC=ldap,DC=goauthentik,DC=io</code></li>\n<li>Users -&gt; LDAP Filter: <code>(&amp;(|(objectclass=inetOrgPerson)))</code></li>\n<li>Login Attributes -&gt; LDAP Query: <code>(&amp;(objectClass=posixAccount)(|(sAMAccountName=%uid)(mail=%uid)))</code></li>\n</ul>",
       "platform": "linux",
       "env": [
         {
@@ -22122,7 +22122,7 @@
       ],
       "description": "github foss clone, source control, issue tracker, ci/cd, wiki",
       "logo": "https://github.com/go-gitea/gitea/blob/main/public/assets/img/logo.png?raw=true",
-      "note": "<p>After installation:<br />\n- Open <code>192.168.2.2:${PORT_HTTP}</code><br />\n- Site Title: <code>gitea: vidolov.net</code><br />\n- Server Domain: <code>gitea.vidolov.net</code><br />\n- Gitea base URL: <code>https://gitea.vidolov.net/</code><br />\n- EMail Settings (optional):<br />\n- Server and Third party settings:<br />\n  - Enable OpenID Sign-in: <code>False</code><br />\n  - Disable Self-Registration: <code>True</code><br />\n  - Require Sign-in to View Pages: ?<br />\n- Administrator Account Settings:<br />\n  - Username: <code>gitea</code> # <code>admin</code> is reserved<br />\n  - Email address: <code>gitea@vidolov.net</code><br />\n  - Password: <code>my_secret_password</code></p>\n<p>After login:<br />\n- Open: Settings -&gt; Site Administration<br />\n- Identity &amp; Access -&gt; Authentication Sources<br />\n- Actions -&gt; Runners</p>\n<p>From OMV SSH:<br />\n- <code>nano /zpool/docker/gitea/gitea/gitea/conf/app.ini</code><br />\n- <code>[server]</code><br />\n  - <code>SSH_DOMAIN = vidolov.net</code><br />\n  - <code>SSH_PORT = 8022</code><br />\n  - <code>MINIMUM_KEY_SIZE_CHECK = false</code></p>\n<p>From Internet Router:<br />\n- Add WAN port forward: <code>omv_gitea_ssh</code>: <code>8022</code> -&gt; <code>192.168.2.2:8022</code></p>",
+      "note": "<p>After installation:<br />\n- Open <code>192.168.2.2:${PORT_HTTP}</code><br />\n- Site Title: <code>gitea: vidolov.net</code><br />\n- Server Domain: <code>gitea.vidolov.net</code><br />\n- Gitea base URL: <code>https://gitea.vidolov.net/</code><br />\n- EMail Settings (optional):<br />\n- Server and Third party settings:<br />\n  - Enable OpenID Sign-in: <code>False</code><br />\n  - Disable Self-Registration: <code>True</code><br />\n  - Require Sign-in to View Pages: ?<br />\n- Administrator Account Settings:<br />\n  - Username: <code>gitea</code> # <code>admin</code> is reserved<br />\n  - Email address: <code>gitea@vidolov.net</code><br />\n  - Password: <code>my_secret_password</code></p>\n<p>After login:<br />\n- Open: Settings -&gt; Site Administration<br />\n- Identity &amp; Access -&gt; Authentication Sources<br />\n- Actions -&gt; Runners</p>\n<p>From OMV SSH:<br />\n- <code>nano /zpool/docker/gitea/gitea/gitea/conf/app.ini</code><br />\n- <code>[server]</code><br />\n  - <code>SSH_DOMAIN = vidolov.net</code><br />\n  - <code>SSH_PORT = 8022</code><br />\n  - <code>MINIMUM_KEY_SIZE_CHECK = false</code><br />\n  - <code>ROOT_URL = https://gitea.vidolov.net/</code><br />\n- <code>[openid]</code><br />\n  - <code>ENABLE_OPENID_SIGNIN = false</code><br />\n  - <code>ENABLE_OPENID_SIGNUP = false</code><br />\n- <code>[service]</code><br />\n  - <code>ALLOW_ONLY_EXTERNAL_REGISTRATION = false</code></p>\n<p>From Internet Router:<br />\n- Add WAN port forward: <code>omv_gitea_ssh</code>: <code>8022</code> -&gt; <code>192.168.2.2:8022</code></p>\n<p>LDAP:<br />\n- Admin settings -&gt; Identity &amp; Access -&gt; Authentication Sources -&gt; Add<br />\n- Authentication name: <code>ldap</code><br />\n- Security protocol: <code>Unencrypted</code><br />\n- Host: <code>192.168.2.2</code><br />\n- Port: <code>389</code><br />\n- Bind DN: <code>cn=ldapservice,ou=users,DC=ldap,DC=goauthentik,DC=io</code><br />\n- Bind Password: <code>[ldapservice user password]</code><br />\n- User search base: <code>DC=ldap,DC=goauthentik,DC=io</code><br />\n- User Filter: <code>(&amp;(objectClass=posixAccount)(sAMAccountName=%s))</code><br />\n- User attribute: <code>sAMAccountName</code><br />\n- First name attribute: <code>name</code><br />\n- Email attribute: <code>mail</code></p>\n<p>OpenID:<br />\n- Admin settings -&gt; Identity &amp; Access -&gt; Authentication Sources -&gt; Add<br />\n- Authentication Type: <code>OAuth2</code><br />\n- Authentication Name: <code>Authentik</code><br />\n- OAuth2 Provider: <code>OpenID Connect</code><br />\n- Client ID (Key): <code>[copy from authentic provider]</code><br />\n- Client Secret: <code>[copy from authentic provider]</code><br />\n- Icon URL: <code>https://authentik.vidolov.net/static/dist/assets/icons/icon.svg</code><br />\n- OpenID Connect Auto Discovery URL: <code>https://authentik.vidolov.net/application/o/gitea/.well-known/openid-configuration</code></p>",
       "platform": "linux",
       "env": [
         {
@@ -22392,6 +22392,66 @@
       ],
       "repository": {
         "stackfile": "docker-compose/taiga/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
+      "title": "keycloak",
+      "categories": [
+        "authentication",
+        "home-lab"
+      ],
+      "description": "LDAP provider, OIDC, SAML",
+      "logo": "",
+      "note": "",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PORT_KEYCLOAK",
+          "name": "PORT_KEYCLOAK",
+          "default": "8013",
+          "description": ""
+        },
+        {
+          "label": "PORT_LDAP",
+          "name": "PORT_LDAP",
+          "default": "389",
+          "description": ""
+        },
+        {
+          "label": "PORT_LDAP_ADMIN",
+          "name": "PORT_LDAP_ADMIN",
+          "default": "8014",
+          "description": ""
+        },
+        {
+          "label": "PATH_HOST",
+          "name": "PATH_HOST",
+          "default": "/zpool/docker/keycloak",
+          "description": "persistent storage"
+        },
+        {
+          "label": "POSTGRES_PASSWORD",
+          "name": "POSTGRES_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "KEYCLOAK_ADMIN",
+          "name": "KEYCLOAK_ADMIN",
+          "default": "admin",
+          "description": ""
+        },
+        {
+          "label": "KEYCLOAK_ADMIN_PASSWORD",
+          "name": "KEYCLOAK_ADMIN_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/keycloak/docker-compose.yml",
         "url": "https://github.com/yvvidolov/home-lab"
       }
     }
