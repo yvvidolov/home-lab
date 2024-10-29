@@ -1,6 +1,7 @@
 services:
   onlyoffice-documentserver:
-    image: onlyoffice/documentserver
+    # image: onlyoffice/documentserver
+    image: yvvidolov/onlyoffice-unrestricted
     container_name: ${COMPOSE_PROJECT_NAME}-documentserver
     restart: unless-stopped
     depends_on:
