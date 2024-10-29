@@ -38,19 +38,21 @@ services:
       - postgres
 
   openldap:
-    image: osixia/openldap:1.5.0
+    image: osixia/openldap:latest
     container_name: openldap
     environment:
-      - LDAP_ORGANISATION="MyCompany Inc."
-      - LDAP_DOMAIN=mycompany.com
+      - LDAP_ORGANISATION="ldap"
+      - LDAP_DOMAIN=vidolov.net
+      - LDAP_ADMIN_PASSWORD="admin"
     ports:
       - "${PORT_LDAP}:389"
 
   phpldapadmin:
-    image: osixia/phpldapadmin:0.9.0
+    image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
     ports:
       - "${PORT_LDAP_ADMIN}:443"
     depends_on:

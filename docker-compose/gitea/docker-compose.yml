@@ -15,6 +15,7 @@ services:
       # - USER_GID=1000
 
       - APP_NAME="gitea vidolov.net"
+      - PROTOCOL=https
       - DOMAIN=gitea.vidolov.net
 
       - GITEA__database__DB_TYPE=postgres
