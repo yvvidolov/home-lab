@@ -55,7 +55,8 @@ def parse_docker_dirs(debug=False):
                     if '=' not in line: continue
                     if line[0] == '#': continue
                     line = line.strip()
-                    name, value = line.split('=')
+                    name, *value = line.split('=')
+                    value = '='.join(value)
                     value, *description = value.split('#')
                     description = ''.join(description).strip() if description else ''
                     name = name.strip()

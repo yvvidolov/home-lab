@@ -1,0 +1,1 @@
+After install login with: admin:admin and change password

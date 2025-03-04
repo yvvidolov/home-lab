@@ -1,0 +1,108 @@
+#name: openproject
+#categories: project-management
+#description: Project management, Issue tracker
+#platform: linux
+#logo: https://raw.githubusercontent.com/opf/openproject/0f19e85e2a8e290234e7d31fa74732294370ec72/app/assets/images/icon_logo.svg
+#note: 
+
+x-op-restart-policy: &restart_policy
+  restart: unless-stopped
+x-op-image: &image
+  image: openproject/openproject:${TAG:-14-slim}
+x-op-app: &app
+  <<: [*image, *restart_policy]
+  environment:
+    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
+    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:-localhost:8080}"
+    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-true}"
+    RAILS_CACHE_STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: ${RAILS_MIN_THREADS:-4}
+    RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-16}
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+  volumes:
+    - "${OPDATA}:/var/openproject/assets"
+
+services:
+  db:
+    image: postgres:13
+    container_name: ${COMPOSE_PROJECT_NAME}-db
+    <<: *restart_policy
+    stop_grace_period: "3s"
+    volumes:
+      - "${PGDATA}:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-p4ssw0rd}
+      POSTGRES_DB: openproject
+
+  cache:
+    image: memcached
+    container_name: ${COMPOSE_PROJECT_NAME}-memcached
+    <<: *restart_policy
+
+  proxy:
+    # build:
+    #   context: ./proxy
+    #   args:
+    #     APP_HOST: web
+    image: openproject/proxy:${TAG:-14-slim}
+    container_name: ${COMPOSE_PROJECT_NAME}-proxy
+    <<: *restart_policy
+    ports:
+      - "${PORT:-8080}:80"
+    depends_on:
+      - web
+
+  web:
+    <<: *app
+    container_name: ${COMPOSE_PROJECT_NAME}-web
+    command: "./docker/prod/web"
+    depends_on:
+      - db
+      - cache
+      - seeder
+    labels:
+      - autoheal=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}/health_checks/default"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+
+  autoheal:
+    image: willfarrell/autoheal:1.2.0
+    container_name: ${COMPOSE_PROJECT_NAME}-autoheal
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal
+      AUTOHEAL_START_PERIOD: 600
+      AUTOHEAL_INTERVAL: 30
+
+  worker:
+    <<: *app
+    container_name: ${COMPOSE_PROJECT_NAME}-worker
+    command: "./docker/prod/worker"
+    depends_on:
+      - db
+      - cache
+      - seeder
+
+  cron:
+    <<: *app
+    container_name: ${COMPOSE_PROJECT_NAME}-cron
+    command: "./docker/prod/cron"
+    depends_on:
+      - db
+      - cache
+      - seeder
+
+  seeder:
+    <<: *app
+    container_name: ${COMPOSE_PROJECT_NAME}-seeder
+    command: "./docker/prod/seeder"
+    restart: on-failure

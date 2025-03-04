@@ -95,7 +95,8 @@ services:
     image: coturn/coturn:latest
     container_name: ${COMPOSE_PROJECT_NAME}-coturn
     restart: unless-stopped
-    # volumes:
+    volumes:
+      - ${PATH_HOST_DOCKER}/coturn:/var/lib/coturn
     #   - ./coturn/turnserver.conf:/etc/turnserver.conf:ro
     #   - ./coturn/privkey.pem:/etc/ssl/private/privkey.pem:ro
     #   - ./coturn/cert.pem:/etc/ssl/certs/cert.pem:ro
