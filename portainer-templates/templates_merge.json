@@ -21948,6 +21948,72 @@
     },
     {
       "type": 3,
+      "title": "nextcloud",
+      "categories": [
+        "cloud",
+        "home-lab"
+      ],
+      "description": "File sharing, contacts, chat/video conferencing, calendar",
+      "logo": "https://github.com/walkxcode/dashboard-icons/blob/main/png/nextcloud.png?raw=true",
+      "note": "<blockquote>\n<p>NOTE: Beware of coturn port forward range: even 500 ports take 10gb ram!!</p>\n</blockquote>",
+      "platform": "linux",
+      "env": [
+        {
+          "label": "PATH_HOST_DOCKER",
+          "name": "PATH_HOST_DOCKER",
+          "default": "/zpool/docker/nextcloud",
+          "description": "persistent storage for nextcloud database"
+        },
+        {
+          "label": "PATH_HOST_USERS",
+          "name": "PATH_HOST_USERS",
+          "default": "/zpool/users",
+          "description": "persistent storage for nextcloud user files"
+        },
+        {
+          "label": "PORT_HTTP",
+          "name": "PORT_HTTP",
+          "default": "8010",
+          "description": "web interface"
+        },
+        {
+          "label": "DB_PASSWORD",
+          "name": "DB_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "DB_ROOT_PASSWORD",
+          "name": "DB_ROOT_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "NEXTCLOUD_ADMIN_PASSWORD",
+          "name": "NEXTCLOUD_ADMIN_PASSWORD",
+          "default": "[CHANGE_ME]",
+          "description": ""
+        },
+        {
+          "label": "PHP_SCRIPT_MAX_MEMORY",
+          "name": "PHP_SCRIPT_MAX_MEMORY",
+          "default": "1g",
+          "description": ""
+        },
+        {
+          "label": "FILE_UPLOAD_MAX_SIZE",
+          "name": "FILE_UPLOAD_MAX_SIZE",
+          "default": "16g",
+          "description": ""
+        }
+      ],
+      "repository": {
+        "stackfile": "docker-compose/nextcloud/docker-compose.yml",
+        "url": "https://github.com/yvvidolov/home-lab"
+      }
+    },
+    {
+      "type": 3,
       "title": "dolibarr",
       "categories": [
         "erp",
