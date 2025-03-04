@@ -120,6 +120,17 @@ services:
       - "65000-65005:65000-65005/udp"
     environment:
       - TURN_ENABLE=1
-      - TURN_SECRET=[CHANGE_ME]
+      - TURN_SECRET=${COTURN_SECRET}
       - MIN_PORT=65000
       - MAX_PORT=65005
+
+
+  whiteboard-server:
+    # image: nextcloud/aio-whiteboard
+    image: ghcr.io/nextcloud-releases/whiteboard:release
+    ports:
+    - ${WHITEBOARD_PORT}:3002
+    environment:
+    - NEXTCLOUD_URL=https://cloud.vidolov.net
+    - JWT_SECRET_KEY=${WHITEBOARD_JWT_SECRET}
+    

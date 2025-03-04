@@ -271,6 +271,32 @@ You can mount the docker folder over the network, so it's easier to work with se
   - Data -> shared folder: docker_compose_data
   - Docker -> Docker storage: /zpool/docker/docker_storage
 
+#### Container Log Management
+> By default docker does not limit container logging!  
+> Without this your disk space will run out (/var/lib/docker/container/.../...-json.log).  
+
+> Existing containers need to be recreated to accept new log configuration!
+
+The json-file logging driver supports log rotation, automatically clearing old logs by limiting file size and count. You can configure the logging driver globally by editing the Docker daemon configuration file:  
+`sudo nano /etc/docker/daemon.json`
+
+Add or update the logging driver configuration to include log rotation options:
+```
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}
+```
+
+After making changes, restart the Docker daemon to apply them:  
+`sudo systemctl restart docker`
+
+Alternatively, you can apply these settings at the container level using the docker run command:  
+`docker run --log-driver=json-file --log-opt max-size=10m --log-opt max-file=3 -d <my-container-id>`
+
 ##### Portainer installation (optional)
 - Services -> Compose -> Files -> Add -> Add from example -> name: portainer - portainer
 - Services -> Compose -> Files -> portainer -> edit -> image: portainer/portainer-ce:sts
