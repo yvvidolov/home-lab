@@ -1,8 +1,10 @@
-# Usage: ./pre-deploy.sh pgadmin_host_path
+# Usage: ./pre-deploy.sh [pgadmin_host_path]
 
-# Pgadmin requires special owner when mounted on host
-mkdir -p $1
-chown -R 5050:5050 $1
+# Pgadmin requires special owner when mounted on host (do this manually, komodo hooks work inside a container)
+if [ -n "$1" ]; then
+  mkdir -p "$1"
+  chown -R 5050:5050 "$1"
+fi
 
 # Clickhouse needs a keypair
 mkdir -p docker/clickhouse/cert
