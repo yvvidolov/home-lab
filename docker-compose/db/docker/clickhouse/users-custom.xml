@@ -1,0 +1,30 @@
+<clickhouse>
+    <profiles>
+        <default>
+            <max_memory_usage>536870912</max_memory_usage> <!-- 512mb per query -->
+            <max_threads>2</max_threads>
+            <max_block_size>8192</max_block_size>
+            <max_bytes_before_external_group_by>268435456</max_bytes_before_external_group_by> <!-- 256mb per query -->
+            <max_bytes_before_external_sort>268435456</max_bytes_before_external_sort>
+            <max_execution_time>600</max_execution_time>
+            <use_uncompressed_cache>0</use_uncompressed_cache>
+            <load_balancing>random</load_balancing>
+            <max_download_threads>1</max_download_threads>
+            <input_format_parallel_parsing>0</input_format_parallel_parsing>
+            <output_format_parallel_formatting>0</output_format_parallel_formatting>
+        </default>
+    </profiles>
+
+    <quotas>
+        <default>
+            <interval>
+                <duration>3600</duration>
+                <queries>0</queries>
+                <errors>0</errors>
+                <result_rows>0</result_rows>
+                <read_rows>0</read_rows>
+                <execution_time>0</execution_time>
+            </interval>
+        </default>
+    </quotas>
+</clickhouse>

@@ -1,0 +1,68 @@
+<clickhouse>
+  
+  <listen_host>0.0.0.0</listen_host>
+
+  <!-- <compression>
+    <case>
+      <method>zstd</method>
+      <level>1</level>
+    </case>
+  </compression> -->
+
+  <!-- <merge_tree>
+    <max_bytes_to_merge_at_max_space_in_pool>104857600</max_bytes_to_merge_at_max_space_in_pool>
+    <number_of_free_entries_in_pool_to_execute_mutation>1</number_of_free_entries_in_pool_to_execute_mutation>
+  </merge_tree> -->
+
+  <!-- Minimum logging -->
+  <logger>
+    <!-- Possible levels [1]:
+      - none (turns off logging)
+      - fatal
+      - critical
+      - error
+      - warning
+      - notice
+      - information
+      - debug
+      - trace
+    -->
+    <level>none</level>
+    <log>/var/log/clickhouse-server/clickhouse-server.log</log>
+    <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
+    <size>10M</size>
+    <count>10</count>
+
+    <console>1</console>
+    <console_log_level>warning</console_log_level>
+  </logger>
+
+  <!-- Setup TLS -->
+  <tcp_port_secure>9440</tcp_port_secure>
+
+  <openSSL>
+    <server>
+      <certificateFile>/etc/clickhouse-server/cert/server.crt</certificateFile>
+      <privateKeyFile>/etc/clickhouse-server/cert/server.key</privateKeyFile>
+      <verificationMode>none</verificationMode>
+
+      <!-- <certificateFile>/etc/clickhouse-server/cert/cert1.pem</certificateFile>
+      <privateKeyFile>/etc/clickhouse-server/cert/privkey1.pem</privateKeyFile>
+      <caConfig>/etc/clickhouse-server/cert/fullchain1.pem</caConfig>
+      <verificationMode>strict</verificationMode> -->
+    </server>
+  </openSSL>
+
+  <!-- Lowend Hardware Settings: -->
+  <max_server_memory_usage>8147483648</max_server_memory_usage> <!-- 8gb -->
+  <mark_cache_size>536870912</mark_cache_size> <!-- 512mb -->
+
+  <merge_tree>
+    <max_bytes_to_merge_at_max_space_in_pool>16777216</max_bytes_to_merge_at_max_space_in_pool>
+    <number_of_free_entries_in_pool_to_execute_mutation>1</number_of_free_entries_in_pool_to_execute_mutation>
+
+    <old_parts_lifetime>480</old_parts_lifetime> <!-- 8 minutes -->
+    <cleanup_delay_period>30</cleanup_delay_period> <!-- 30 seconds -->
+  </merge_tree>
+  
+</clickhouse>
