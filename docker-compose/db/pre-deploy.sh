@@ -1,10 +1,13 @@
-# Pgadmin requires special owner when mounted on host
-mkdir -p /zpool/docker/db/pgadmin
-chown -R 5050:5050 /zpool/docker/db/pgadmin
+# Usage: ./pre-deploy.sh pgadmin_host_path
 
-# Clickhouse requires SSL
-openssl req -x509 -newkey rsa:2048 -nodes \
+# Pgadmin requires special owner when mounted on host
+mkdir -p $1
+chown -R 5050:5050 $1
+
+# Clickhouse needs a keypair
+mkdir -p docker/clickhouse/cert
+[ -f docker/clickhouse/cert/server.key ] || openssl req -x509 -newkey rsa:2048 -nodes \
   -keyout docker/clickhouse/cert/server.key \
   -out docker/clickhouse/cert/server.crt \
   -days 99999 \
-  -subj "/CN=clickhouse-server" 
+  -subj "/CN=clickhouse-server"
