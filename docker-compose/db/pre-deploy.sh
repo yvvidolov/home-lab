@@ -8,8 +8,11 @@ fi
 
 # Clickhouse needs a keypair
 mkdir -p docker/clickhouse/cert
-[ -f docker/clickhouse/cert/server.key ] || openssl req -x509 -newkey rsa:2048 -nodes \
-  -keyout docker/clickhouse/cert/server.key \
-  -out docker/clickhouse/cert/server.crt \
-  -days 99999 \
-  -subj "/CN=clickhouse-server"
+if [ -f docker/clickhouse/cert/server.key ]; then
+  openssl req -x509 -newkey rsa:2048 -nodes \
+    -keyout docker/clickhouse/cert/server.key \
+    -out docker/clickhouse/cert/server.crt \
+    -days 99999 \
+    -subj "/CN=clickhouse-server"
+  chown 101:101 docker/clickhouse/cert/server.key docker/clickhouse/cert/server.crt
+fi
