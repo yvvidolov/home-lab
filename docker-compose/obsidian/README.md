@@ -1,0 +1,1 @@
+- Open server:5984 to setup database
