@@ -1,1 +1,4 @@
-- Open server:5984 to setup database
+- Run create_user.sh
+  - ./create_user.sh <COUCHDB_URL> <ADMIN_NAME> <ADMIN_PASS> <USER_NAME> <USER_PASSWORD> script to create desired users
+  - ./create_user.sh http://localhost:5984 admin_name admin_password user_name user_password
+- Open http://host:port/_utils/#login to manage database
