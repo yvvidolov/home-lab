@@ -23,3 +23,6 @@ services:
     volumes:
       - ${PATH_HOST}/data:/data
       - ${PATH_HOST}/letsencrypt:/etc/letsencrypt
+
+    # We need special networking to access k3s load balancer (bridge is isolated)
+    network_mode: host

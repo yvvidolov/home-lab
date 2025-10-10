@@ -1,0 +1,2 @@
+- Change .env settings
+- Make a hook before deployment: ./pre-deploy.sh ${PGADMIN_HOST_PATH}

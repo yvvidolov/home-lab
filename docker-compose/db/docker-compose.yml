@@ -1,8 +1,10 @@
 services:
+  # Minio File Object Store
   minio:
-    image: minio/minio:RELEASE.2025-04-22T22-12-26Z # still has admin panel
+    image: minio/minio:${MINIO_VERSION}
     # image: minio/minio:latest
     container_name: db-minio
+    restart: unless-stopped
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
@@ -12,11 +14,30 @@ services:
     volumes:
       - ${MINIO_HOST_PATH}:/data
     command: server /data --console-address ":9001"
-  #end
 
+  # Redis Caching service, improves performance by storing frequently accessed data
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: db-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ${REDIS_HOST_PATH}:/data
+    environment:
+      - REDIS_PORT=${REDIS_PORT}
+    command: > 
+      redis-server
+      --maxmemory ${REDIS_MAX_MEMORY}
+      --maxmemory-policy ${REDIS_EVICTION_POLICY}
+    # --user default off
+    # --user admin on >${REDIS_ADMIN_PASSWORD} allcommands allkeys
+
+  # Timeseries Column-oriented database (with compression)
   clickhouse:
-    image: clickhouse/clickhouse-server:latest
+    image: clickhouse/clickhouse-server:${CLICKHOUSE_VERSION}
     container_name: db-clickhouse
+    restart: unless-stopped
     ports:
       - "${CLICKHOUSE_PORT_HTTP}:8123"  # HTTP interface
       - "${CLICKHOUSE_PORT_TCP}:9000"  # TCP Native client
@@ -36,6 +57,7 @@ services:
       - ./docker/clickhouse/cert/server.crt:/etc/clickhouse-server/cert/server.crt:ro
       - ./docker/clickhouse/cert/server.key:/etc/clickhouse-server/cert/server.key:ro
 
+  # Clickhouse Web UI
   tabix:
     image: spoonest/clickhouse-tabix-web-client
     container_name: db-tabix
@@ -44,8 +66,9 @@ services:
     depends_on:
       - clickhouse
 
+  # Postgres Database
   postgres:
-    image: postgres:17
+    image: postgres:${POSTGRES_VERSION}
     container_name: db-postgres
     restart: unless-stopped
     environment:
@@ -59,6 +82,7 @@ services:
     volumes:
       - ${POSTGRES_HOST_PATH}:/var/lib/postgresql/data
 
+  # Postgres Web UI
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: db-pgadmin
