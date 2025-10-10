@@ -35,7 +35,8 @@ services:
 
   # Timeseries Column-oriented database (with compression)
   clickhouse:
-    image: clickhouse/clickhouse-server:${CLICKHOUSE_VERSION}
+    image: clickhouse:${CLICKHOUSE_VERSION}
+    # image: clickhouse/clickhouse-server:${CLICKHOUSE_VERSION} # deprecated
     container_name: db-clickhouse
     restart: unless-stopped
     ports:
