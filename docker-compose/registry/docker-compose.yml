@@ -1,0 +1,79 @@
+services:
+  registry:
+    image: registry:2
+    container_name: registry
+    restart: unless-stopped
+    ports:
+      - "${REGISTRY_PORT}:5000"
+    environment:
+      # Basic configuration
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+      
+      # HTTP configuration
+      - REGISTRY_HTTP_ADDR=0.0.0.0:5000
+      - REGISTRY_HTTP_HEADERS_X-Content-Type-Options=[nosniff]
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin=['*']
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Methods=['HEAD','GET','OPTIONS','DELETE']
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Headers=['Authorization','Accept','Cache-Control']
+      - REGISTRY_HTTP_HEADERS_Access-Control-Expose-Headers=['Docker-Content-Digest']
+      
+      # Health check
+      # - REGISTRY_HEALTH_STORAGEDRIVER_ENABLED=true
+      # - REGISTRY_HEALTH_STORAGEDRIVER_INTERVAL=600s
+      # - REGISTRY_HEALTH_STORAGEDRIVER_THRESHOLD=3
+      
+      # Logging
+      - REGISTRY_LOG_LEVEL=info
+      - REGISTRY_LOG_FORMATTER=text
+      
+      # Optional: Basic Authentication (uncomment and configure if needed)
+      # - REGISTRY_AUTH=htpasswd
+      # - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      # - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      
+      # Optional: TLS Configuration (uncomment if using HTTPS)
+      # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt
+      # - REGISTRY_HTTP_TLS_KEY=/certs/domain.key
+    
+    volumes:
+      # Registry data storage
+      - ${REGISTRY_HOST_PATH}:/var/lib/registry
+      
+      # Optional: Authentication files (uncomment if using basic auth)
+      # - $PATH_DOCKER/registry/auth:/auth:ro
+      
+      # Optional: TLS certificates (uncomment if using HTTPS)
+      # - $PATH_DOCKER/registry/certs:/certs:ro
+      
+      # Optional: Custom configuration
+      # - $PATH_DOCKER/registry/config.yml:/etc/docker/registry/config.yml:ro
+    
+    # healthcheck:
+    #   test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/v2/"]
+    #   interval: 300s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 30s
+    
+  # Optional: Registry UI for web interface
+  registry-ui:
+    image: joxit/docker-registry-ui:latest
+    container_name: registry-ui
+    restart: unless-stopped
+    ports:
+      - "${REGISTRY_PORT_UI}:80"
+    environment:
+      - SINGLE_REGISTRY=true
+      - REGISTRY_TITLE=OMV Docker Registry
+      - DELETE_IMAGES=true
+      - SHOW_CONTENT_DIGEST=true
+      - NGINX_PROXY_PASS_URL=http://registry:5000
+      - SHOW_CATALOG_NB_TAGS=true
+      - CATALOG_MIN_BRANCHES=1
+      - CATALOG_MAX_BRANCHES=1
+      - TAGLIST_PAGE_SIZE=100
+      - REGISTRY_SECURED=false
+      - CATALOG_ELEMENTS_LIMIT=1000
+    depends_on:
+      - registry
