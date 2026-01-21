@@ -14,6 +14,7 @@ services:
             - DB_CONNECTION=sqlite
             - SPEEDTEST_SCHEDULE=${SCHEDULE}
             - TZ=${TZ}
+            - DISPLAY_TIMEZONE=${TZ}
         volumes:
             - ${PATH_HOST_DATA}/config:/config
             # - /path/to-custom-ssl-keys:/config/keys             
