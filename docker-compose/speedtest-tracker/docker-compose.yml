@@ -13,8 +13,7 @@ services:
             - APP_URL=${APP_URL}
             - DB_CONNECTION=sqlite
             - SPEEDTEST_SCHEDULE=${SCHEDULE}
+            - TZ=${TZ}
         volumes:
             - ${PATH_HOST_DATA}/config:/config
             # - /path/to-custom-ssl-keys:/config/keys             
-            - /etc/timezone:/etc/timezone:ro
-            - /etc/localtime:/etc/localtime:ro
