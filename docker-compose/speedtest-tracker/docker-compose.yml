@@ -12,6 +12,7 @@ services:
             - APP_KEY=${APP_KEY}
             - APP_URL=${APP_URL}
             - DB_CONNECTION=sqlite
+            - SPEEDTEST_SCHEDULE=${SCHEDULE}
         volumes:
             - ${PATH_HOST_DATA}/config:/config
             # - /path/to-custom-ssl-keys:/config/keys 
