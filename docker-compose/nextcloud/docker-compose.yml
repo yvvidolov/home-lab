@@ -44,6 +44,9 @@ services:
       - ${PATH_HOST_DOCKER}/nextcloud:/var/www/html # /var/www/html/custom_apps, /var/www/html/config, /var/www/html/themes
       - ${PATH_HOST_USERS}:/var/www/html/data # all nextcloud users files
 
+    devices:
+      - /dev/dri:/dev/dri # Enable videocard access for hardware acceleration
+
     environment:
       # Timezone
       - TZ=Europe/Sofia
@@ -83,6 +86,9 @@ services:
       # MAIL_FROM_ADDRESS (not set by default): Set the local-part for the 'from' field in the emails sent by Nextcloud.
       # MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
       # At least SMTP_HOST, MAIL_FROM_ADDRESS and MAIL_DOMAIN must be set for the configurations to be applied.
+
+      # Memories
+      - MEMORIES_VAAPI=1 # use hardware acceleration
 
     depends_on:
       nextcloud_redis:
