@@ -1,0 +1,53 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    depends_on:
+      - mqtt
+    volumes:
+      - ${PATH_HOST}/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=${TZ}
+    ports:
+      - "${PORT_HA}:8123"
+    restart: unless-stopped
+    privileged: true
+
+  mqtt:
+    container_name: mqtt
+    image: eclipse-mosquitto:latest
+    ports:
+      - "${PORT_MQTT}:1883"
+    volumes:
+      - ${PATH_HOST}/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ${PATH_HOST}/mosquitto/data:/mosquitto/data
+      - ${PATH_HOST}/mosquitto/log:/mosquitto/log
+    restart: unless-stopped
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt:latest
+    depends_on:
+      - mqtt
+    restart: unless-stopped
+    ports:
+      - "${PORT_Z2M_UI}:8080"
+    volumes:
+      - ${PATH_HOST}/zigbee2mqtt/data:/app/data
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=${TZ}
+
+  filebrowser:
+    container_name: filebrowser
+    image: filebrowser/filebrowser:latest
+    ports:
+      - "${PORT_FILEEDITOR}:80"
+    command: --noauth
+    volumes:
+      - ${PATH_HOST}/config:/srv/homeassistant
+      - ${PATH_HOST}/zigbee2mqtt:/srv/zigbee2mqtt
+      - ${PATH_HOST}/mosquitto:/srv/mosquitto
+      - ${PATH_HOST}/filebrowser:/database
+    restart: unless-stopped
