@@ -1,59 +1,36 @@
-#name: dolibarr
-#categories: erp
-#description: erm/crm/erp software
-#platform: linux
-#logo: https://raw.githubusercontent.com/Dolibarr/dolibarr/52c40c90319d1529c6b903d32ee98ce6f7142c18/doc/images/dolibarr_logo.svg
-#note: 
-
 services:
-  mariadb:
-    image: mariadb:latest
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 1
-      MYSQL_DATABASE: dolibarr
-      MYSQL_USER: dolibarr
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - ${PATH_HOST}/db:/var/lib/mysql
+    dolibarr-db:
+        image: mariadb:11.4
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
-  cron:
-    image: tuxgasy/dolibarr:latest # ${DOLI_VERSION}${PHP_VERSION}
-    volumes:
-      - ${PATH_HOST}/custom:/var/www/html/custom
-      - ${PATH_HOST}/documents:/var/www/documents
-    environment:
-      DOLI_CRON: 1
-      DOLI_CRON_KEY: ${DOLI_INSTANCE_UNIQUE_ID}
-      DOLI_CRON_USER: ${DOLI_ADMIN_LOGIN}
-      DOLI_INSTANCE_UNIQUE_ID: ${DOLI_INSTANCE_UNIQUE_ID}
-      DOLI_DB_USER: dolibarr
-      DOLI_DB_PASSWORD: ${MYSQL_PASSWORD}
-      DOLI_ADMIN_LOGIN: ${DOLI_ADMIN_LOGIN}
-      DOLI_ADMIN_PASSWORD: ${DOLI_ADMIN_PASSWORD}
-      DOLI_DB_HOST: mariadb
-      DOLI_DB_NAME: dolibarr
-      DOLI_URL_ROOT: ${DOMAIN_URL}
-      # WWW_USER_ID: 1000
-      # WWW_GROUP_ID: 1000
+        volumes:
+            - ${PATH_HOST}/mysql:/var/lib/mysql
 
-  web:
-    image: tuxgasy/dolibarr:latest
-    volumes:
-      - ${PATH_HOST}/custom:/var/www/html/custom
-      - ${PATH_HOST}/documents:/var/www/documents
-    depends_on:
-      - mariadb
-    environment:
-      DOLI_INSTANCE_UNIQUE_ID: ${DOLI_INSTANCE_UNIQUE_ID}
-      DOLI_DB_USER: dolibarr
-      DOLI_DB_PASSWORD: ${MYSQL_PASSWORD}
-      DOLI_DB_HOST: mariadb
-      DOLI_DB_NAME: dolibarr
-      DOLI_URL_ROOT: ${DOMAIN_URL}
-      DOLI_ADMIN_LOGIN: ${DOLI_ADMIN_LOGIN}
-      DOLI_ADMIN_PASSWORD: ${DOLI_ADMIN_PASSWORD}
-      # WWW_USER_ID: 1000
-      # WWW_GROUP_ID: 1000
-    ports:
-      - "${PORT}:80"
+    dolibarr:
+        image: dolibarr/dolibarr:latest
+        environment:
+            DOLI_INIT_DEMO: ${DOLI_INIT_DEMO:-0}
+            DOLI_DB_HOST: dolibarr-db
+            DOLI_DB_NAME: ${MYSQL_DATABASE}
+            DOLI_DB_USER: ${MYSQL_USER}
+            DOLI_DB_PASSWORD: ${MYSQL_PASSWORD}
+            DOLI_URL_ROOT: "${DOMAIN_URL}"
+            DOLI_ADMIN_LOGIN: "${DOLI_ADMIN_LOGIN}"
+            DOLI_ADMIN_PASSWORD: "${DOLI_ADMIN_PASSWORD}"
+            DOLI_CRON: ${DOLI_CRON:-1}
+            DOLI_CRON_KEY: ${DOLI_CRON_KEY}
+            DOLI_COMPANY_NAME: ${DOLI_COMPANY_NAME}
+            WWW_USER_ID: ${WWW_USER_ID:-1000}
+            WWW_GROUP_ID: ${WWW_GROUP_ID:-1000}
+
+        ports:
+            - ${PORT}:80
+        depends_on:
+            - dolibarr-db
+        volumes:
+            - ${PATH_HOST}/documents:/var/www/html/documents
+            - ${PATH_HOST}/custom:/var/www/html/custom
