@@ -1,6 +1,7 @@
 services:
     dolibarr-db:
         image: mariadb:11.4
+        restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
             MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -9,9 +10,15 @@ services:
 
         volumes:
             - ${PATH_HOST}/mysql:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+            interval: 10s
+            timeout: 5s
+            retries: 12
 
     dolibarr:
-        image: dolibarr/dolibarr:latest
+        image: dolibarr/dolibarr:${DOLI_TAG:-23}
+        restart: unless-stopped
         environment:
             DOLI_INIT_DEMO: ${DOLI_INIT_DEMO:-0}
             DOLI_DB_HOST: dolibarr-db
@@ -21,8 +28,7 @@ services:
             DOLI_URL_ROOT: "${DOMAIN_URL}"
             DOLI_ADMIN_LOGIN: "${DOLI_ADMIN_LOGIN}"
             DOLI_ADMIN_PASSWORD: "${DOLI_ADMIN_PASSWORD}"
-            DOLI_CRON: ${DOLI_CRON:-1}
-            DOLI_CRON_KEY: ${DOLI_CRON_KEY}
+            DOLI_CRON: 0
             DOLI_COMPANY_NAME: ${DOLI_COMPANY_NAME}
             WWW_USER_ID: ${WWW_USER_ID:-1000}
             WWW_GROUP_ID: ${WWW_GROUP_ID:-1000}
@@ -30,7 +36,36 @@ services:
         ports:
             - ${PORT}:80
         depends_on:
-            - dolibarr-db
+            dolibarr-db:
+                condition: service_healthy
         volumes:
-            - ${PATH_HOST}/documents:/var/www/html/documents
+            - ${PATH_HOST}/documents:/var/www/documents
+            - ${PATH_HOST}/custom:/var/www/html/custom
+        healthcheck:
+            test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://localhost/"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 180s
+
+    dolibarr-cron:
+        image: dolibarr/dolibarr:${DOLI_TAG:-23}
+        restart: unless-stopped
+        environment:
+            DOLI_DB_HOST: dolibarr-db
+            DOLI_DB_NAME: ${MYSQL_DATABASE}
+            DOLI_DB_USER: ${MYSQL_USER}
+            DOLI_DB_PASSWORD: ${MYSQL_PASSWORD}
+            DOLI_URL_ROOT: "${DOMAIN_URL}"
+            DOLI_CRON: 1
+            DOLI_CRON_KEY: ${DOLI_CRON_KEY}
+            DOLI_CRON_USER: ${DOLI_ADMIN_LOGIN}
+            WWW_USER_ID: ${WWW_USER_ID:-1000}
+            WWW_GROUP_ID: ${WWW_GROUP_ID:-1000}
+
+        depends_on:
+            dolibarr:
+                condition: service_healthy
+        volumes:
+            - ${PATH_HOST}/documents:/var/www/documents
             - ${PATH_HOST}/custom:/var/www/html/custom
